@@ -1,0 +1,29 @@
+/* Styles for the Register Title Section */
+.register-title {
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Gradient Background */
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    color: #df2727; /* White text color */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
+    margin-bottom: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-title:hover {
+    transform: translateY(-5px); /* Hover effect */
+    box-shadow: 0 12px 20px rgba(118, 75, 162, 0.3);
+}
+
+.register-title h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.register-title p {
+    font-size: 18px;
+    font-weight: 400;
+    margin: 0;
+    opacity: 0.9;
+}
