@@ -17,7 +17,7 @@ declare let $: any;
 })
 export class AppComponent {
 
-    title = 'Edon - Angular 16+ LMS & Online Courses Theme';
+    title = 'erp-project';
 
     location: any;
     routerSubscription: any;

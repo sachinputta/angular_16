@@ -1,101 +1,76 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminCoursesComponent } from './components/admin-dashboard/admin-courses/admin-courses.component';
-import { AdminDashboardComponent } from './components/admin-dashboard/admin-dashboard/admin-dashboard.component';
-import { AdminProfileComponent } from './components/admin-dashboard/admin-profile/admin-profile.component';
-import { AdminPurchaseHistoryComponent } from './components/admin-dashboard/admin-purchase-history/admin-purchase-history.component';
-import { AdminSettingsComponent } from './components/admin-dashboard/admin-settings/admin-settings.component';
-import { NotFoundComponent } from './components/common/not-found/not-found.component';
-import { InstructorAddCoursesComponent } from './components/instructor-dashboard/instructor-add-courses/instructor-add-courses.component';
-import { InstructorCoursesComponent } from './components/instructor-dashboard/instructor-courses/instructor-courses.component';
-import { InstructorDashboardComponent } from './components/instructor-dashboard/instructor-dashboard/instructor-dashboard.component';
-import { InstructorEarningsComponent } from './components/instructor-dashboard/instructor-earnings/instructor-earnings.component';
-import { InstructorProfileComponent } from './components/instructor-dashboard/instructor-profile/instructor-profile.component';
-import { InstructorPurchaseHistoryComponent } from './components/instructor-dashboard/instructor-purchase-history/instructor-purchase-history.component';
-import { InstructorSettingsComponent } from './components/instructor-dashboard/instructor-settings/instructor-settings.component';
-import { InstructorStudentsComponent } from './components/instructor-dashboard/instructor-students/instructor-students.component';
-import { InstructorWithdrawComponent } from './components/instructor-dashboard/instructor-withdraw/instructor-withdraw.component';
-import { AboutPageComponent } from './components/pages/about-page/about-page.component';
-import { BecomeAnInstrutorPageComponent } from './components/pages/become-an-instrutor-page/become-an-instrutor-page.component';
-import { BlogDetailsPageComponent } from './components/pages/blog-details-page/blog-details-page.component';
-import { BlogPageComponent } from './components/pages/blog-page/blog-page.component';
-import { ComingSoonPageComponent } from './components/pages/coming-soon-page/coming-soon-page.component';
-import { ContactPageComponent } from './components/pages/contact-page/contact-page.component';
-import { CoursesDetailsPageComponent } from './components/pages/courses-details-page/courses-details-page.component';
-import { CoursesPageComponent } from './components/pages/courses-page/courses-page.component';
-import { EventsDetailsPageComponent } from './components/pages/events-details-page/events-details-page.component';
-import { EventsPageComponent } from './components/pages/events-page/events-page.component';
-import { FaqPageComponent } from './components/pages/faq-page/faq-page.component';
-import { HomeDemoOneComponent } from './components/pages/home-demo-one/home-demo-one.component';
+
 import { HomeDemoThreeComponent } from './components/pages/home-demo-three/home-demo-three.component';
 import { HomeDemoTwoComponent } from './components/pages/home-demo-two/home-demo-two.component';
-import { InstructorsPageComponent } from './components/pages/instructors-page/instructors-page.component';
-import { InstructorsProfilePageComponent } from './components/pages/instructors-profile-page/instructors-profile-page.component';
-import { LoginPageComponent } from './components/pages/login-page/login-page.component';
-import { PricingPageComponent } from './components/pages/pricing-page/pricing-page.component';
-import { PrivacyPolicyPageComponent } from './components/pages/privacy-policy-page/privacy-policy-page.component';
-import { RegisterPageComponent } from './components/pages/register-page/register-page.component';
-import { TermsConditionsPageComponent } from './components/pages/terms-conditions-page/terms-conditions-page.component';
-import { ZoomMeetingsPageComponent } from './components/pages/zoom-meetings-page/zoom-meetings-page.component';
-import { UserCoursesComponent } from './components/user-dashboard/user-courses/user-courses.component';
-import { UserDashboardComponent } from './components/user-dashboard/user-dashboard/user-dashboard.component';
-import { UserProfileComponent } from './components/user-dashboard/user-profile/user-profile.component';
-import { UserPurchaseHistoryComponent } from './components/user-dashboard/user-purchase-history/user-purchase-history.component';
-import { UserReviewsComponent } from './components/user-dashboard/user-reviews/user-reviews.component';
-import { UserSettingsComponent } from './components/user-dashboard/user-settings/user-settings.component';
-import { adminGuard } from './Guards/admin.guard';
+
+import { LoginComponent } from './components/login/login.component';
+import { SignupComponent } from './components/signup/signup.component';
+import { HomepageComponent } from './components/homepage/homepage.component';
+import { RoleGuard } from './Guards/role.guard';
+import { ItemspageComponent } from './components/itemspage/itemspage.component';
+import { CustomersComponent } from './components/customers/customers.component';
+import { AllcustomersComponent } from './components/allcustomers/allcustomers.component';
+import { WelcomepageComponent } from './components/welcomepage/welcomepage.component';
+import { AdminHomepageComponent } from './components/admin-homepage/admin-homepage.component';
+import { AllquotesComponent } from './components/allquotes/allquotes.component';
+import { ProformaInvoiceListComponent } from './components/proforma-invoice-list/proforma-invoice-list.component';
+import { ProformaInvoiceDetailComponent } from './components/proforma-invoice-detail/proforma-invoice-detail.component';
+import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 
 const routes: Routes = [
-    {path: '', component: HomeDemoThreeComponent},
-    {path: 'index-2', component: HomeDemoTwoComponent},
-    {path: 'index-3', component: HomeDemoThreeComponent},
-    {path: 'courses', component: CoursesPageComponent},
-    {path: 'courses-details', component: CoursesDetailsPageComponent},
-    {path: 'about', component: AboutPageComponent},
-    {path: 'instructors', component: InstructorsPageComponent},
-    {path: 'instructor-profile', component: InstructorsProfilePageComponent},
-    {path: 'become-an-instructor', component: BecomeAnInstrutorPageComponent},
-    {path: 'events', component: EventsPageComponent},
-    {path: 'event-details', component: EventsDetailsPageComponent},
-    {path: 'zoom-meetings', component: ZoomMeetingsPageComponent},
-    {path: 'login', component: LoginPageComponent},
-    {path: 'register', component: RegisterPageComponent},
-    {path: 'faq', component: FaqPageComponent},
-    {path: 'privacy-policy', component: PrivacyPolicyPageComponent},
-    {path: 'terms-conditions', component: TermsConditionsPageComponent},
-    {path: 'pricing', component: PricingPageComponent},
-    {path: 'blog', component: BlogPageComponent},
-    {path: 'blog-details', component: BlogDetailsPageComponent},
-    {path: 'coming-soon', component: ComingSoonPageComponent},
-    {path: 'contact', component: ContactPageComponent},
+    // {path: '', component: HomeDemoThreeComponent},
+    // {path: 'index-2', component: HomeDemoTwoComponent},
+    // {path: 'index-3', component: HomeDemoThreeComponent},
 
-    // Admin dashboard
-    {path: 'admin-dashboard', component: AdminDashboardComponent,canActivate:[adminGuard]},
-    {path: 'admin-profile', component: AdminProfileComponent},
-    {path: 'admin-courses', component: AdminCoursesComponent,canActivate:[adminGuard]},
-    {path: 'admin-purchase-history', component: AdminPurchaseHistoryComponent,canActivate:[adminGuard]},
-    {path: 'admin-settings', component: AdminSettingsComponent},
-
-    // User dashboard
-    {path: 'user-dashboard', component: UserDashboardComponent},
-    {path: 'user-profile', component: UserProfileComponent},
-    {path: 'user-enrolled-courses', component: UserCoursesComponent},
-    {path: 'user-purchase-history', component: UserPurchaseHistoryComponent},
-    {path: 'user-settings', component: UserSettingsComponent},
-    {path: 'user-reviews', component: UserReviewsComponent},
-
-    // Instructor dashboard
-    {path: 'instructor-dashboard', component: InstructorDashboardComponent},
-    {path: 'instructor-dashboard-profile', component: InstructorProfileComponent},
-    {path: 'instructor-courses', component: InstructorCoursesComponent},
-    {path: 'add-courses', component: InstructorAddCoursesComponent},
-    {path: 'instructor-purchase-history', component: InstructorPurchaseHistoryComponent},
-    {path: 'instructor-earnings', component: InstructorEarningsComponent},
-    {path: 'instructor-withdraw', component: InstructorWithdrawComponent},
-    {path: 'instructor-students', component: InstructorStudentsComponent},
-    {path: 'instructor-settings', component: InstructorSettingsComponent},
-
-    {path: '**', component: NotFoundComponent} // This line will remain down from the whole pages component list
+    { path: 'login', component: LoginComponent },
+    { path: 'signup', component: SignupComponent },
+    {
+      path: 'customer-homepage', component: HomepageComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+    },
+    {
+      path: 'itemspage', component: ItemspageComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+    },
+    {
+      path: 'customers', component: CustomersComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+  
+    },
+    {
+      path: 'allcustomers', component: AllcustomersComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+  
+    },
+    { path: 'welcomepage', component: WelcomepageComponent },
+    {
+      path: 'admin-homepage',
+      component: AdminHomepageComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Admin', 'ROLE_ADMIN'] }
+    },
+    {
+      path: 'allquotes', component: AllquotesComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+    },
+    {
+      path: 'proformas', component: ProformaInvoiceListComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+    },
+    {
+      path: 'proforma/:invoiceNo', component: ProformaInvoiceDetailComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Customer', 'ROLE_Customer'] }
+    },
+    { path: 'unauthorized', component: UnauthorizedComponent },
+    { path: '', redirectTo: '/welcomepage', pathMatch: 'full' }
 ];
 
 @NgModule({

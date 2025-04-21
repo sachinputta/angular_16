@@ -1,0 +1,295 @@
+/* .main-container {
+  display: flex;
+  padding-left: 15%;
+  height: 100vh;
+}
+
+.quotes-container {
+  width: 40%;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.header button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.quote-list {
+  margin-bottom: 20px;
+}
+
+.quote-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.quote-item.selected {
+  background-color: #f0f0f0;
+}
+
+.quote-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.quote-item .customer {
+  flex: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.quote-item .amount {
+  flex: 1;
+  text-align: right;
+}
+
+.quote-item .date {
+  flex: 1;
+  text-align: center;
+}
+
+.quote-item .status {
+  flex: 1;
+  text-align: center;
+}
+
+.quote-item .actions {
+  flex: 2;
+  display: flex;
+  justify-content: flex-end;
+  gap: 5px;
+}
+
+.quote-item button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.quote-item select {
+  padding: 5px;
+}
+
+.filter-section {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.filter-section input {
+  padding: 5px;
+}
+
+.filter-section button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}  */
+
+
+.main-container {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+    background-color: white;
+    margin-left: 250px; /* Sidebar space */
+  }
+  
+  .quotes-container {
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+  }
+  
+  @media (max-width: 768px) {
+    .main-container {
+      margin-left: 0;
+      flex-direction: column;
+    }
+  
+    .quotes-container {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+  
+  /* Header row: All Quotes + button */
+  .header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .all-quotes-dropdown {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .arrow {
+    font-size: 1.5rem;
+    margin-left: 8px;
+    color: green;
+  }
+  
+  /* Quote card style */
+  .quote-list {
+    margin-bottom: 15px;
+  }
+  
+  .quote-item {
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    background-color: #fafafa;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .quote-item.selected {
+    background-color: #e0f7fa;
+    border-left: 4px solid #007bff;
+  }
+  
+  /* Top line: checkbox + name + amount */
+  .quote-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  
+  .quote-top input[type="checkbox"] {
+    margin-right: 10px;
+  }
+  
+  .customer {
+    flex: 1;
+    font-weight: 600;
+    font-size: 1rem;
+  }
+  
+  .amount {
+    font-weight: bold;
+    color: #2e7d32;
+  }
+  
+  /* Meta: ID + date */
+  .quote-meta {
+    display: flex;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 4px;
+  }
+  
+  .quote-id {
+    font-weight: 500;
+  }
+  
+  .date {
+    color: #666;
+  }
+  
+  /* Status label */
+  .status {
+    display: block;
+    font-size: 12px;
+    color: #757575;
+  }
+  
+  /* Action row */
+  .actions {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .actions button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+  }
+  
+  .actions select {
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  /* Filter section */
+  .filter-section {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .filter-section input[type="text"],
+  .filter-section input[type="date"] {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+  }
+  
+  .filter-section button {
+    background-color: #28a745;
+    color: white;
+    padding: 8px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  /* New button */
+  .btn-new {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-new:hover {
+    background-color: #0056b3;
+  }
+  

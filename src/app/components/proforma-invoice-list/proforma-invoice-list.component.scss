@@ -1,0 +1,11 @@
+.list-group-item.active {
+    background-color: #4c92dd;
+    color: white;
+    /* border-color: #007bff; */
+  }
+
+  .list-group-item:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    cursor: pointer;
+  }
+  

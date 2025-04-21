@@ -1,0 +1,51 @@
+.content-box {
+    margin-left: 150px;
+    /* Moves content slightly to the left */
+    max-width: 1000px;
+    font-family: Arial, sans-serif;
+}
+
+.card {
+    border-radius: 10px;
+    border: none;
+    font-size: 14px;
+}
+
+.progress {
+    height: 6px;
+}
+
+.greeting-icon {
+    font-size: 30px;
+    /* Adjust size to match text */
+    color: black;
+    /* Bootstrap primary color */
+    border: 1px solid #007bff;
+    /* Square border */
+    padding: 10px;
+    /* Adds space inside the border */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    /* Square shape */
+    height: 60px;
+    /* Square shape */
+    margin-bottom: 10px;
+}
+
+.nav-tabs .nav-link {
+    color: black;
+    /* Default color for inactive tabs */
+    font-weight: normal;
+    /* Normal weight for inactive tabs */
+}
+
+.nav-tabs .nav-link.active {
+    color: blue !important;
+    /* Blue color for active tab */
+    font-weight: bold;
+    /* Bold text for active tab */
+    border-bottom: 3px solid blue !important;
+    /* Optional: Underline effect */
+}

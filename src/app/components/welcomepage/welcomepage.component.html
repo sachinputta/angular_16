@@ -1,0 +1,95 @@
+<!-- Header -->
+<header class="header">
+    <div class="logo">
+        <span>MINAD INFOTECH</span>
+    </div>
+    <nav class="nav">
+        <a href="#" class="nav-item">Solutions</a>
+        <a href="#" class="nav-item">Pricing</a>
+        <a href="#" class="nav-item">Resources</a>
+        <a href="#" class="nav-item">Contact</a>
+    </nav>
+</header>
+
+<!-- Main Section -->
+<main class="main">
+    <div class="main-content" [@slideInLeft]>
+        <h1 class="main-title">Master Your Taxes with Confidence</h1>
+        <p class="main-text">Innovative tax solutions designed for precision, efficiency, and peace of mind.</p>
+        <div class="main-actions">
+            <button class="btn btn-start" routerLink="/signup">Start Now</button>
+            <button class="btn btn-login" routerLink="/login">Login</button>
+
+        </div>
+    </div>
+    <div class="main-visual" [@slideInRight]>
+        <img src="https://img.freepik.com/premium-photo/photo-person-holding-tax-documents-calculator_1055425-4646.jpg"
+            alt="Tax Analytics">
+
+    </div>
+</main>
+
+<!-- Modal -->
+<div class="modal" *ngIf="isModalOpen" [@modalSlide]>
+    <div class="modal-container">
+        <button class="modal-close" (click)="toggleModal('')">×</button>
+        <div class="modal-header">
+            <h2>{{ activeTab === 'signin' ? 'Welcome Back' : 'Join TaxNova' }}</h2>
+        </div>
+        <div class="modal-body">
+            <form *ngIf="activeTab === 'signin'" class="auth-form" [@formSlide]>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-auth">Sign In</button>
+                <a href="#" class="form-link">Forgot Password?</a>
+            </form>
+            <form *ngIf="activeTab === 'signup'" class="auth-form" [@formSlide]>
+                <div class="form-group">
+                    <input type="text" placeholder="Full Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="Email" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn btn-auth">Sign Up</button>
+            </form>
+        </div>
+        <div class="modal-toggle">
+            <p>{{ activeTab === 'signin' ? 'New to TaxNova?' : 'Already a member?' }}
+                <a href="#" (click)="toggleModal(activeTab === 'signin' ? 'signup' : 'signin')">
+                    {{ activeTab === 'signin' ? 'Sign Up' : 'Sign In' }}
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <span>Minad Infotech</span>
+            <p>Empowering wealth through smart tax management.</p>
+        </div>
+        <div class="footer-nav">
+            <h4>Explore</h4>
+            <a href="#">Home</a>
+            <a href="#">Solutions</a>
+            <a href="#">Pricing</a>
+        </div>
+        <div class="footer-social">
+            <h4>Connect</h4>
+            <a href="#"><img src="https://img.icons8.com/ios-filled/24/00C4B4/twitter.png" alt="Twitter"></a>
+            <a href="#"><img src="https://img.icons8.com/ios-filled/24/00C4B4/linkedin.png" alt="LinkedIn"></a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>© 2025 MINAD. All Rights Reserved.</p>
+    </div>
+</footer>

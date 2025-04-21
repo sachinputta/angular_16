@@ -1,0 +1,125 @@
+/* .quote-container {
+  width: 60%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.quote-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.quote-header span {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.actions button,
+.extra-actions button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+.extra-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.quote-content {
+  position: relative;
+  padding: 20px;
+  border: 1px solid #ddd;
+}
+
+.watermark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-45deg);
+  color: #ccc;
+  font-size: 40px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.company-info {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.company-info h1 {
+  font-size: 24px;
+  margin: 0;
+}
+
+.quote-title {
+  text-align: right;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table td,
+table th {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.items-table th {
+  background-color: #f2f2f2;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.footer button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.footer button:first-child {
+  background-color: #007bff;
+  color: white;
+  border: none;
+}
+ */
+ .btn {
+    padding: 6px 14px;
+    border: none;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+  .btn.primary {
+    background-color: #3498db;
+    color: white;
+  }
+
+  .btn.outline {
+    border: 1px solid #ccc;
+    background-color: white;
+  }
+
+  .btn:hover {
+    background-color: #dcdcdc;
+  }

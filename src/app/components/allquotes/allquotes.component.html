@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+
+
+<div class="main-container">
+
+  <div class="quotes-container">
+
+    <div class="header-row">
+      <div class="all-quotes-dropdown">
+        <span class="all-quotes-title">All Quotes</span>
+        <span class="arrow">&#9662;</span>
+      </div>
+      <button class="btn-new">+ New</button>
+    </div>
+
+
+    <div class="quote-list">
+      <div class="quote-item" *ngFor="let quote of filteredQuotes" (click)="selectQuote(quote.id)"
+        [class.selected]="selectedQuoteId === quote.id">
+
+        <div class="quote-top">
+          <input type="checkbox" />
+          <span class="customer">{{ quote.customerName }}</span>
+          <span class="amount">{{ quote.amount | currency:'INR' }}</span>
+        </div>
+        <div class="quote-meta">
+          <span class="quote-id">{{ quote.id }}</span>
+          <span class="date">{{ quote.date }}</span>
+        </div>
+        <span class="status">{{ quote.status }}</span>
+        <div class="actions"></div>
+      </div>
+    </div>
+    
+    
+  </div>
+  <app-quote [selectedQuoteId]="selectedQuoteId"></app-quote>
+</div>

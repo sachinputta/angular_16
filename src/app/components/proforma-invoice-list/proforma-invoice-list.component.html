@@ -1,0 +1,65 @@
+<!-- 
+<app-navbar></app-navbar>
+
+<div class="container-fluid d-flex">
+
+    <div class="col-4 p-3 border-end bg-light">
+      <h5 class="mb-3">All Proforma Invoices</h5>
+      <ul class="list-group">
+        <li class="list-group-item list-group-item-action"
+            *ngFor="let invoice of invoices"
+            (click)="selectInvoice(invoice)">
+          {{ invoice.invoiceNo }} - ₹{{ invoice.totalAmount }}
+        </li>
+      </ul>
+    </div>
+  
+ 
+    <div class="col-8 p-3">
+      <app-proforma-invoice-detail [invoice]="selectedInvoice"></app-proforma-invoice-detail>
+    </div>
+  </div>
+   -->
+
+
+   <app-navbar></app-navbar>
+
+   <!-- Main Container adjusted for sidebar and navbar -->
+   <div class="main-container d-flex" style="margin-left: 250px; ">
+     <!-- Left Panel: Proforma List -->
+     <div class="col-4 p-3 border-end bg-white" style="height: calc(100vh - 60px); overflow-y: auto;">
+      <h5 class="mb-3 fw-bold text">
+        All Proforma Invoices
+        <i class="bi bi-caret-down-fill text-success ms-2"></i>
+      </h5>
+      
+      
+   
+       <ul class="list-group">
+        <li class="list-group-item list-group-item-action shadow-sm"
+        *ngFor="let invoice of invoices"
+        (click)="selectInvoice(invoice)"
+        [class.active]="selectedInvoice?.invoiceNo === invoice.invoiceNo"
+        style="border-radius: 8px; margin-bottom: 12px;  transition: box-shadow 0.2s ease;">
+      
+      <!-- Row 1: Name & Amount -->
+      <div class="d-flex justify-content-between align-items-center">
+        <strong>{{ invoice.billingAddress }}</strong>
+        <span class="badge bg-success">₹{{ invoice.totalAmount }}</span>
+      </div>
+    
+      <!-- Row 2: PI No + Date inline -->
+      <div class="mt-1 text-muted small">
+        <strong>{{ invoice.invoiceNo }}</strong> &nbsp;&nbsp; {{ invoice.date }}
+      </div>
+    </li>
+    
+       </ul>
+     </div>
+   
+     <!-- Right Panel: Preview -->
+     <div class="col-8 p-4 bg-light" style="height: calc(100vh - 60px); overflow-y: auto;">
+       <app-proforma-invoice-detail [invoice]="selectedInvoice"></app-proforma-invoice-detail>
+     </div>
+   </div>
+   

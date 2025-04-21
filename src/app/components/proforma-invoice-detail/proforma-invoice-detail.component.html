@@ -1,0 +1,157 @@
+<div *ngIf="invoice" class="quote-detail-container"
+  style="max-width: 1200px; margin: 0 auto; padding: 20px; background-color: #fff; font-family: 'Segoe UI', sans-serif;">
+  <!-- Invoice Header -->
+  <div style="font-size: 20px; font-weight: bold; margin-bottom: 10px;">{{ invoice.invoiceNo }}</div>
+  <!-- Button Row (Stylish, Compact & Responsive) -->
+  <div class="d-flex flex-wrap gap-2 mb-4 justify-content-end">
+    <button class="btn btn-outline-primary btn-sm"><i class="bi bi-pencil-square me-1"></i> Edit</button>
+    <button class="btn btn-outline-success btn-sm"><i class="bi bi-send-fill me-1"></i> Send</button>
+    <button class="btn btn-outline-secondary btn-sm"><i class="bi bi-share me-1"></i> Share</button>
+    <button class="btn btn-outline-dark btn-sm"><i class="bi bi-printer me-1"></i> PDF/Print</button>
+  </div>
+
+  <!-- What's Next Section (Elevated with shadow and icons) -->
+  <div class="border rounded bg-light p-4 shadow-sm mb-4">
+    <h6 class="fw-bold text-uppercase text-secondary mb-2"><i class="bi bi-lightbulb me-2 text-warning"></i>What's Next?
+    </h6>
+    <p class="mb-3">Go ahead and email this invoice to your customer or simply mark it as sent.</p>
+    <div class="d-flex gap-2">
+      <button class="btn btn-primary btn-sm"><i class="bi bi-send me-1"></i> Send Invoice</button>
+      <button class="btn btn-outline-primary btn-sm"><i class="bi bi-check2-circle me-1"></i> Mark As Sent</button>
+    </div>
+  </div>
+
+
+
+
+  <div *ngIf="invoice" class="quote-detail-container"
+    style="padding: 30px; font-family: 'Segoe UI', sans-serif; background: #fff; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 1000px; margin: 0 auto;">
+  <!-- Header -->
+<h2 class="text-center fw-bold text-primary">PROFORMA INVOICE</h2>
+<p class="text-center mb-2" style="font-size: 14px; color: #c76f39;">
+  (Under Rule 46 of the CGST Rules 2017)
+</p>
+
+<!-- Company Info -->
+<div class="mb-3 small text-secondary text-center">
+  <p class="mb-0">
+    <strong>PAN:</strong> AAACC6814B &nbsp; | &nbsp;
+    <strong>GSTIN:</strong> 36AAACC6814B1Z5 &nbsp; | &nbsp;
+    <strong>CIN:</strong> L64204MH1959PLC011421
+  </p>
+</div>
+
+
+<!-- Billing & Shipping in One Box with Divider -->
+<div class="border rounded p-3 mb-4">
+  <div class="row">
+    <!-- Billing Address -->
+    <div class="col-md-6 col-12 border-end">
+      <h6 class="fw-bold">BILLING ADDRESS</h6>
+      <p class="mb-0">{{ invoice.billingAddress }}</p>
+    </div>
+
+    <!-- Shipping Address -->
+    <div class="col-md-6 col-12 ps-md-4 pt-md-0 mt-3 mt-md-0">
+      <h6 class="fw-bold">SHIPPING ADDRESS</h6>
+      <p class="mb-0">{{ invoice.shippingAddress }}</p>
+    </div>
+  </div>
+</div>
+
+    
+<!-- Invoice Details -->
+<div class="border rounded p-3 mb-4 shadow-sm">
+  <div class="row small">
+    <!-- Left Column -->
+    <div class="col-md-6 col-12 border-end">
+      <p><strong>Invoice No:</strong> {{ invoice.invoiceNo }}</p>
+      <p><strong>Invoice Date:</strong> {{ invoice.date }}</p>
+      <p><strong>Technology:</strong> GPON</p>
+    </div>
+
+    <!-- Right Column -->
+    <div class="col-md-6 col-12 ps-md-4 pt-md-0 mt-3 mt-md-0">
+      <p><strong>GSTIN/UIN:</strong> {{ invoice.gstin }}</p>
+      <p><strong>State Code:</strong> 36 - TELANGANA</p>
+      <p><strong>Place of Supply:</strong> 36 - TELANGANA</p>
+    </div>
+  </div>
+</div>
+
+  <!-- Charge Table with Totals -->
+<h6 class="fw-bold mb-3 text-primary text-center" style="text-decoration: underline;">CHARGE DETAILS</h6>
+
+<div class="table-responsive">
+  <table class="table table-bordered small align-middle">
+    <thead class="table-light text-center">
+      <tr>
+        <th>Package</th>
+        <th>HSN/SAC</th>
+        <th>Transaction Date</th>
+        <th>Period</th>
+        <th>Charges</th>
+        <th>Discount</th>
+        <th>Net Charges</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of invoice.items">
+        <td>{{ item.package }}</td>
+        <td>{{ item.hsn }}</td>
+        <td>{{ invoice.date }}</td>
+        <td>{{ item.period }}</td>
+        <td class="text-end">₹{{ item.amount }}</td>
+        <td class="text-end">₹0.00</td>
+        <td class="text-end">₹{{ item.amount }}</td>
+      </tr>
+
+      <!-- Totals Section -->
+      <tr>
+        <td colspan="6" class="fw-bold">Total Charges</td>
+        <td class="text-end fw-bold text-dark">
+          ₹{{ invoice.totalAmount - (invoice.items[0].cgst + invoice.items[0].sgst) }}
+        </td>
+      </tr>
+      <tr>
+        <td colspan="6" class="fw-bold">CGST (9%)</td>
+        <td class="text-end text-success">₹{{ invoice.items[0].cgst }}</td>
+      </tr>
+      <tr>
+        <td colspan="6" class="fw-bold">SGST (9%)</td>
+        <td class="text-end text-success">₹{{ invoice.items[0].sgst }}</td>
+      </tr>
+      <tr class="table-primary">
+        <td colspan="6" class="fw-bold">Total Payable</td>
+        <td class="text-end fw-bold">₹{{ invoice.totalAmount }}</td>
+      </tr>
+
+      <!-- In Words Row -->
+      <tr>
+        <td colspan="7" class="text-start fw-bold text-muted">
+          <em>In Words:</em> {{ invoice.amountInWords }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+    <!-- Signature -->
+    <div class="mt-5 text-end small">
+      <img src="assets/images/qr-signature.png" alt="Digital Signature" width="120" class="mb-2" />
+      <p><strong>Digitally signed by</strong> {{ invoice.signedBy }}</p>
+      <p class="fw-bold text-uppercase">Authorised Signatory</p>
+    </div>
+  </div>
+
+  <!-- Fallback -->
+  <div *ngIf="!invoice" class="text-muted text-center p-5">
+    <p>Please select a proforma invoice to preview.</p>
+  </div>
+
+
+  <!-- Fallback when no invoice is selected -->
+  <div *ngIf="!invoice" class="text-muted text-center p-5">
+    <p>Please select a proforma invoice to preview.</p>
+  </div>

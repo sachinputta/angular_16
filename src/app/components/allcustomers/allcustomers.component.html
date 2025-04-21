@@ -1,0 +1,63 @@
+<app-navbar></app-navbar>
+
+
+<div class="content">
+    <!-- Header Section -->
+    <div class="header">
+        <h1 class="header-title">
+            All Customers
+            <span class="dropdown-arrow">&#9662;</span>
+        </h1>
+
+        <div class="search-add">
+            <div class="search-wrapper">
+                <i class="fa fa-search search-icon"></i>
+                <input type="text" placeholder="Search by Customer Name..." [(ngModel)]="searchTerm"
+                    (input)="filterCustomers()" class="search-bar" />
+            </div>
+            <button class="add-btn" routerLink="/customers">+ New Customer</button>
+        </div>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th (click)="sort('customerName')">Customer Name</th>
+                    <th>Company Name</th>
+                    <th (click)="sort('customerType')">Customer Type</th>
+                    <th>Email</th>
+                    <th>Mobile Number</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let customer of paginatedCustomers">
+                    <td>{{ customer.customerName }}</td>
+                    <td>{{ customer.companyName || 'N/A' }}</td>
+                    <td>{{ customer.customerType }}</td>
+                    <td><a href="mailto:{{ customer.customerEmail }}">{{ customer.customerEmail }}</a></td>
+                    <td>{{ customer.mobileNumber }}</td>
+                    <td class="actions">
+                        <i class="fa fa-eye view-icon" (click)="viewMore(customer)" title="View More"></i>
+                        <i class="fa fa-edit update-icon" (click)="updateCustomer(customer)" title="Edit"></i>
+                        <i class="fa fa-trash delete-icon" (click)="deleteCustomer(customer)" title="Delete"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <div class="pagination">
+        <button (click)="previousPage()" [disabled]="currentPage === 1" class="page-btn">
+          <span class="dropdown-arrow-1">&#9666;</span> <!-- Unicode left-pointing triangle -->
+        </button>
+        <span style="font-weight: bolder;">Page {{ currentPage }} of {{ totalPages }}</span>
+        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="page-btn">
+          <span class="dropdown-arrow-1">&#9656;</span> <!-- Unicode right-pointing triangle -->
+        </button>
+      </div>
+
+</div>

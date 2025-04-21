@@ -1,111 +1,72 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private router: Router) {}
+  // private baseUrl = 'http://localhost:8080';
 
-  // public userLogout() {
-  //   this.router.navigate(['/login']);
-  //   localStorage.removeItem('jwtToken');
-  //   sessionStorage.clear();
-  //   localStorage.clear();
-  // }
+  private baseUrl = 'https://taxapp1-9e3fb338382d.herokuapp.com';
 
-  // public setToken(token: string) {
-  //   localStorage.setItem('jwtToken', token);
-    
-  // }
+  constructor(private http: HttpClient) { }
 
-  // public getToken(): string | null {
-  //   return localStorage.getItem('jwtToken');
-  // }
-
-  // public setRoles(roles: any[]) {
-  //   localStorage.setItem('roles', JSON.stringify(roles));
-  // }
-
-  // public getRoles(): any[] {
-  //   const rolesString = localStorage.getItem('roles');
-  //   return rolesString ? JSON.parse(rolesString) : [];
-  // }
-
-  // public setName(name: string) {
-  //   localStorage.setItem('name', name);
-  // }
-
-  // public getName(): any {
-  //   return localStorage.getItem('name');
-  // }
-
-  // public setEmployeeId(employeeId: string) {
-  //   localStorage.setItem('employeeId', employeeId);
-  // }
-
-  // public getEmployeeId(): any {
-  //   return localStorage.getItem('employeeId');
-  // }
-
-  // public isLoggedIn() {
-  //   return this.getRoles() && this.getToken();
-  // }
-  // getAuthToken(): string {
-  //   return localStorage.getItem('authToken') || ''; // Ensure the token is retrieved correctly
-  // }
-
-
-
-  // -----------------------------------------------------------------
-
-  
-
-  public userLogout() {
-    this.router.navigate(['/login']);
-    sessionStorage.clear(); // Use only sessionStorage to clear all session data
+  login(customerId: string, customerPassword: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/login`, { customerId, customerPassword });
   }
 
-  public setToken(token: string) {
-    sessionStorage.setItem('jwtToken', token);
+  storeToken(token: string): void {
+    localStorage.setItem('token', token);
   }
 
-  public getToken(): string | null {
-    return sessionStorage.getItem('jwtToken'); // Retrieve from sessionStorage
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  public setRoles(roles: any[]) {
-    sessionStorage.setItem('roles', JSON.stringify(roles));
+  clearToken(): void {
+    localStorage.removeItem('token');
   }
 
-  public getRoles(): any[] {
-    const rolesString = sessionStorage.getItem('roles');
-    return rolesString ? JSON.parse(rolesString) : [];
+  storeCustomerId(customerId: string): void {
+    localStorage.setItem('customerId', customerId);
   }
 
-  public setName(name: string) {
-    sessionStorage.setItem('name', name);
+  getCustomerId(): string | null {
+    return localStorage.getItem('customerId');
   }
 
-  public getName(): any {
-    return sessionStorage.getItem('name');
+  getUserRole(): string {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    return user?.role || '';
   }
 
-  public setEmployeeId(employeeId: string) {
-    sessionStorage.setItem('employeeId', employeeId);
+  getAuthHeaders(): HttpHeaders {
+    const token = this.getToken();
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
   }
 
-  public getEmployeeId(): any {
-    return sessionStorage.getItem('employeeId');
+  isTokenExpired(): boolean {
+    const token = localStorage.getItem('token');
+    if (!token) return true;
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const now = Math.floor(Date.now() / 1000); // current time in seconds
+      return payload.exp < now;
+    } catch (e) {
+      return true; // If token is malformed, treat as expired
+    }
   }
 
-  public isLoggedIn() {
-    return this.getRoles().length > 0 && this.getToken() !== null;
-  }
-
-  getAuthToken(): string {
-    return sessionStorage.getItem('jwtToken') || ''; // Retrieve from sessionStorage
+  logout(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
   }
 
 

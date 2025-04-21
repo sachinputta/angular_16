@@ -1,0 +1,118 @@
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<div class="logo-container">
+    <span>MINAD INFOTECH</span>
+</div>
+
+<div class="container center-container">
+    <div id="loginbox" class="mainbox login-box">
+        <div class="panel panel-info">
+            <div class="panel-heading text-center" style="background-color: rgb(29, 29, 99);">
+                <div class="panel-title">Sign In</div>
+            </div>
+
+            <div style="padding-top:30px" class="panel-body">
+                <div *ngIf="loginError" class="alert alert-danger col-sm-12">{{ loginError }}</div>
+
+                <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+                    <div class="input-group" style="margin-bottom: 25px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                        <input id="login-username" type="text" class="form-control" name="username"
+                               [(ngModel)]="username" placeholder="Username or Email" required>
+                    </div>
+
+                    <div class="input-group" style="margin-bottom: 25px;">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                        <input id="login-password" type="password" class="form-control" name="password"
+                               [(ngModel)]="password" placeholder="Password" required>
+                    </div>
+
+                    <div class="form-group text-center" style="margin-top:10px;">
+                        <button type="submit" class="btn btn-success">Login</button>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12 control text-center">
+                            <div style="border-top: 1px solid #888; padding-top:15px; font-size: 110%; font-weight: bold;">
+                                Don't have an account?
+                                <a routerLink="/signup" style="color: #007bff;">Register Here</a>
+                            </div>
+                            <br>
+                            <div style="font-size: 110%; font-weight: bold;">
+                                <a href="#" style="color: #007bff;">Forgot password?</a>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+ -->
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+ <div class="logo-container text-center" style="margin-top: 30px; font-size: 24px; font-weight: bold; color: rgb(29, 29, 99);">
+   MINAD INFOTECH
+ </div>
+ 
+ <div class="container center-container">
+   <div id="loginbox" class="mainbox login-box" style="margin-top: 50px;">
+     <div class="panel panel-info">
+       <div class="panel-heading text-center" style="background-color: rgb(29, 29, 99); color: white;">
+         <div class="panel-title">Sign In</div>
+       </div>
+ 
+       <div style="padding: 30px" class="panel-body">
+         <div *ngIf="loginError" class="alert alert-danger text-center">{{ loginError }}</div>
+ 
+         <form (ngSubmit)="onLogin()" #loginForm="ngForm">
+           <div class="input-group" style="margin-bottom: 20px;">
+             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+             <input
+               id="login-username"
+               type="text"
+               class="form-control"
+               name="customerId"
+               [(ngModel)]="customerId"
+               placeholder="Username or Email"
+               required
+             />
+           </div>
+ 
+           <div class="input-group" style="margin-bottom: 20px;">
+             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+             <input
+               id="login-password"
+               type="password"
+               class="form-control"
+               name="customerPassword"
+               [(ngModel)]="customerPassword"
+               placeholder="Password"
+               required
+             />
+           </div>
+ 
+           <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-success btn-block w-100" style="max-width: 180px;" [disabled]="isLoading">
+              {{ isLoading ? 'Logging in...' : 'Login' }}
+            </button>
+          </div>
+          
+ 
+           <div class="form-group text-center" style="margin-top: 15px;">
+             <div style="border-top: 1px solid #ccc; padding-top: 15px; font-size: 110%; font-weight: bold;">
+               Don't have an account?
+               <a routerLink="/signup" style="color: #007bff;">Register Here</a>
+             </div>
+             <br />
+             <div style="font-size: 110%; font-weight: bold;">
+               <a href="#" style="color: #007bff;">Forgot password?</a>
+             </div>
+           </div>
+         </form>
+       </div>
+     </div>
+   </div>
+ </div>
+ 

@@ -1,0 +1,167 @@
+<!-- <div class="quote-container">
+  <div class="quote-header">
+    <span>{{ quote?.id }}</span>
+    <div class="actions">
+      <button>Edit</button>
+      <button>Send</button>
+      <button>Share</button>
+      <button>PDF/Print</button>
+      <button>Convert</button>
+    </div>
+    <div class="extra-actions">
+      <button (click)="markAsSent()">Mark As Sent</button>
+      <button>Send Quote</button>
+    </div>
+  </div>
+  <div class="quote-content" *ngIf="quote">
+    <div class="watermark">Draft</div>
+    <div class="company-info">
+      <h1>MINAD INFOTECH</h1>
+      <p>5-8-7 Radhe Nagar Colony</p>
+      <p>HS DARGHA, Shaikpet</p>
+      <p>Hyderabad Telangana 500055</p>
+      <p>India</p>
+      <p>#somemailminad.in</p>
+    </div>
+    <div class="quote-title">QUOTE</div>
+    <table>
+      <tr>
+        <td>Bill To</td>
+        <td>Ship To</td>
+      </tr>
+      <tr>
+        <td>{{ quote.customerName }}<br>HYDERABAD<br>Telangana<br>India</td>
+        <td>{{ quote.shipTo }}<br>India</td>
+      </tr>
+    </table>
+    <table class="items-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Item & Description</th>
+          <th>Qty</th>
+          <th>Rate</th>
+          <th>Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of quote.items; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ item.description }}</td>
+          <td>{{ item.quantity }}</td>
+          <td>{{ item.rate | currency:'INR' }}</td>
+          <td>{{ item.amount | currency:'INR' }}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="footer">
+      <button>Save</button>
+      <button>Cancel</button>
+    </div>
+  </div>
+  <div class="quote-content" *ngIf="!quote">
+    <p>Select a quote from the left to view its details.</p>
+  </div>
+</div> -->
+
+
+
+<div class="quote-detail-container" style="padding: 20px; background-color: #fff; font-family: 'Segoe UI', sans-serif;">
+    <!-- Quote ID Header -->
+    <div style="width: 100%;font-size: 20px; font-weight: bold; margin-bottom: 10px;">{{ quote?.id }}</div>
+  
+    <!-- Button Row -->
+    <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+      <button class="btn">Edit</button>
+      <button class="btn">Send</button>
+      <button class="btn">Share</button>
+      <button class="btn">PDF/Print</button>
+      <button class="btn">Convert</button>
+      <button class="btn">⋮</button>
+    </div>
+  
+    <!-- What's Next Section -->
+    <div style="border: 1px solid #e0e0e0; padding: 15px; border-radius: 6px; background-color: #f8f8f8; margin-bottom: 20px;">
+      <strong>WHAT'S NEXT?</strong> Go ahead and email this quote to your customer or simply mark it as sent.
+      <div style="margin-top: 10px;">
+        <button class="btn primary">Send Quote</button>
+        <button class="btn outline">Mark As Sent</button>
+      </div>
+    </div>
+  
+    <!-- Quote Document View -->
+    <div class="quote-preview" style="position: relative; border: 1px solid #ccc; padding: 20px;">
+      <!-- Ribbon Status -->
+      <div style="position: absolute; left: -35px; top: 20px; transform: rotate(-45deg); background-color: #7f8c8d; color: white; padding: 5px 40px; font-size: 14px;">
+        {{ quote?.status }}
+      </div>
+  
+      <!-- Company Info and Quote ID -->
+      <div style="display: flex; justify-content: space-between;">
+        <div>
+          <h2 style="margin-bottom: 5px;">MINAD INFOTECH</h2>
+          <p style="margin: 2px;">5-87 Radhe Nagar colony</p>
+          <p style="margin: 2px;">HS DARGAH, Shaikpet</p>
+          <p style="margin: 2px;">Hyderabad Telangana 500055</p>
+          <p style="margin: 2px;">India</p>
+          <p style="margin: 2px;">infominad.in</p>
+        </div>
+        <div style="text-align: right;">
+          <p style="margin: 2px;"><strong>#</strong> : {{ quote?.id }}</p>
+          <p style="margin: 2px;"><strong>Date</strong> : {{ quote?.date }}</p>
+        </div>
+      </div>
+  
+      <!-- Quote Title -->
+      <h1 style="text-align: right; font-weight: bold; margin-top: 20px;">QUOTE</h1>
+  
+      <!-- Billing and Shipping Table -->
+      <table style="width: 100%; border-collapse: collapse; margin-top: 20px; margin-bottom: 10px;">
+        <tr style="background-color: #f0f0f0;">
+          <td style="padding: 10px; font-weight: bold;">Bill To</td>
+          <td style="padding: 10px; font-weight: bold;">Ship To</td>
+        </tr>
+        <tr>
+          <td style="padding: 10px;">
+            <strong>{{ quote?.customerName }}</strong><br>
+            HYDERABAD<br>
+            Telangana<br>
+            India
+          </td>
+          <td style="padding: 10px;">
+            HYDERABAD<br>
+            Telangana<br>
+            India
+          </td>
+        </tr>
+      </table>
+  
+      <!-- Items Table -->
+      <table style="width: 100%; border: 1px solid #ccc; border-collapse: collapse;">
+        <thead style="background-color: #f5f5f5;">
+          <tr>
+            <th style="padding: 10px; border: 1px solid #ccc;">#</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Item & Description</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Qty</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Rate</th>
+            <th style="padding: 10px; border: 1px solid #ccc;">Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of quote?.items; let i = index">
+            <td style="padding: 10px; border: 1px solid #ccc;">{{ i + 1 }}</td>
+            <td style="padding: 10px; border: 1px solid #ccc;">{{ item.description }}</td>
+            <td style="padding: 10px; text-align: center; border: 1px solid #ccc;">{{ item.quantity }}</td>
+            <td style="padding: 10px; text-align: right; border: 1px solid #ccc;">{{ item.rate | currency:'INR' }}</td>
+            <td style="padding: 10px; text-align: right; border: 1px solid #ccc;">{{ item.amount | currency:'INR' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <!-- Footer Buttons -->
+    <div style="margin-top: 20px; text-align: left;">
+      <button class="btn primary">Save</button>
+      <button class="btn outline">Cancel</button>
+    </div>
+  </div>
