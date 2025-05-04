@@ -11,8 +11,8 @@ import { Quote } from './Modals/quote';
 })
 export class CustomerService {
 
-  private baseUrl = 'http://localhost:8080';
-  // private baseUrl = 'https://taxapp1-9e3fb338382d.herokuapp.com';
+  // private baseUrl = 'http://localhost:8080';
+  private baseUrl = 'https://taxapp1-9e3fb338382d.herokuapp.com';
 
 
 

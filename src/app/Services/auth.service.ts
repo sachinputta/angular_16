@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:8080';
+  // private baseUrl = 'http://localhost:8080';
 
-  // private baseUrl = 'https://taxapp1-9e3fb338382d.herokuapp.com';
+  private baseUrl = 'https://taxapp1-9e3fb338382d.herokuapp.com';
 
   constructor(private http: HttpClient, private router: Router) { }
 
