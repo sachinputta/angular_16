@@ -7,32 +7,152 @@
 
     <div class="header-row">
       <div class="all-quotes-dropdown">
-        <span class="all-quotes-title">All Quotes</span>
+        <span class="all-quotes-title">All Profoma Quotes</span>
         <span class="arrow">&#9662;</span>
       </div>
-      <button class="btn-new">+ New</button>
+      <button class="btn-new" (click)="openModal()">+ New Quote</button>
     </div>
 
 
     <div class="quote-list">
-      <div class="quote-item" *ngFor="let quote of filteredQuotes" (click)="selectQuote(quote.id)"
-        [class.selected]="selectedQuoteId === quote.id">
 
-        <div class="quote-top">
-          <input type="checkbox" />
-          <span class="customer">{{ quote.customerName }}</span>
-          <span class="amount">{{ quote.amount | currency:'INR' }}</span>
+      <!-- Show quotes if any exist -->
+      <div *ngIf="filteredQuotes && filteredQuotes.length > 0; else noQuotes">
+        <div class="quote-item" *ngFor="let quote of filteredQuotes" 
+             (click)="selectQuote(quote.quoteCode || '')"
+             [class.selected]="selectedQuoteId === quote.quoteCode">
+    
+          <div class="quote-top">
+            <span class="customer">{{ quote.customerName }}</span>
+            <span class="amount badge bg-success">{{ getTotalAmount(quote) | currency:'INR' }}</span>
+          </div>
+    
+          <div class="quote-meta">
+            <span class="quote-id">{{ quote.quoteCode }}</span>
+            <span class="date">{{ quote.date }}</span>
+          </div>
+    
         </div>
-        <div class="quote-meta">
-          <span class="quote-id">{{ quote.id }}</span>
-          <span class="date">{{ quote.date }}</span>
-        </div>
-        <span class="status">{{ quote.status }}</span>
-        <div class="actions"></div>
       </div>
+    
+      <!-- Template to show when no quotes are available -->
+      <ng-template #noQuotes>
+        <div class="no-quotes text-center text-muted mt-3">
+          No Quotations available.
+        </div>
+      </ng-template>
+    
     </div>
-    
-    
+  
   </div>
-  <app-quote [selectedQuoteId]="selectedQuoteId"></app-quote>
+  <!-- <app-quote [selectedQuoteId]="selectedQuoteId"></app-quote> -->
+  <app-quote [quote]="selectedQuote"></app-quote>
+  
+</div>
+
+
+<!-- Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-content">
+    <h2 class="modal-title custom-modal-title">Create New Quote</h2>
+
+    <form (ngSubmit)="createQuote()" #quoteForm="ngForm">
+
+      <!-- Customer Name Dropdown -->
+      <!-- <div class="form-group custom-select-container">
+        <label style="font-weight: bolder;">Customer Name</label>
+        <div class="custom-select-wrapper">
+          <select class="form-control custom-select" [(ngModel)]="selectedCustomer" name="customer"
+            (change)="onCustomerChange()" required>
+            <option value="" disabled selected>Select Customer</option>
+            <option *ngFor="let customer of customers" [ngValue]="customer">
+              {{ customer.firstName }} {{ customer.lastName }}
+            </option>
+          </select>
+          <span class="custom-arrow">&#9662;</span>
+        </div>
+      </div> -->
+      <div class="form-group custom-select-container">
+        <label style="font-weight: bolder;">Customer Name</label>
+        <div class="custom-select-wrapper">
+          <select class="form-control custom-select" [(ngModel)]="selectedCustomer" name="customer"
+            (change)="onCustomerChange()" required>
+            <option [ngValue]="null" disabled hidden>Select Customer</option>
+            <option *ngFor="let customer of customers" [ngValue]="customer">
+              {{ customer.firstName }} {{ customer.lastName }}
+            </option>
+          </select>
+          <span class="custom-arrow">&#9662;</span>
+        </div>
+      </div>
+      
+
+
+      <!-- Customer Email Field -->
+      <div class="form-group">
+        <label style="font-weight: bolder;">Customer Email</label>
+        <input type="email" class="form-control" [(ngModel)]="newQuote.customerEmail" name="customerEmail" readonly />
+      </div>
+
+      <!-- Items List -->
+      <div class="form-group">
+
+
+        <div *ngFor="let item of newQuote.items; let i = index" class="item-description-group">
+          <label style="font-weight: bolder;">Items & Descriptions</label>
+          <!-- Description -->
+          <textarea class="form-control mb-2" rows="2" [(ngModel)]="item.description" name="description{{i}}"
+            placeholder="Enter item description" required>
+          </textarea>
+
+          <div class="form-row">
+            <!-- Quantity -->
+            <div class="form-group">
+              <label style="font-weight: bolder;">Quantity</label>
+              <input type="number" class="form-control" [(ngModel)]="item.quantity" name="quantity{{i}}"
+                (input)="updateItemAmount(i)" required>
+            </div>
+
+            <!-- Rate -->
+            <div class="form-group">
+              <label style="font-weight: bolder;">Rate</label>
+              <input type="number" class="form-control" [(ngModel)]="item.rate" name="rate{{i}}"
+                (input)="updateItemAmount(i)" required>
+            </div>
+
+            <!-- Amount -->
+            <div class="form-group">
+              <label style="font-weight: bolder;">Amount</label>
+              <input type="text" class="form-control" [value]="item.amount | currency:'INR'" readonly>
+            </div>
+          </div>
+
+          <!-- Remove Item Button -->
+          <div class="text-end mt-2">
+            <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeItem(i)">
+              <i class="fas fa-trash-alt"></i> Remove Item
+            </button>
+          </div>
+
+
+          <hr> <!-- Nice separator between multiple items -->
+        </div>
+
+        <!-- Add More Items Button -->
+        <div class="text-center mt-2">
+          <button type="button" class="btn btn-primary btn-sm" (click)="addItem()">
+            + Add Item
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Modal Action Buttons -->
+      <div class="modal-buttons">
+        <button type="submit" class="btn btn-save" [disabled]="!quoteForm.valid">Add Quote</button>
+        <button type="button" class="btn btn-cancel" (click)="closeModal()">Cancel</button>
+      </div>
+
+    </form>
+  </div>
 </div>

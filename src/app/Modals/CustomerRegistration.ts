@@ -1,4 +1,6 @@
 export interface CustomerRegistration {
+
+  registrationId: number;
     // Customer Details
     customerId: string;
     customerType: string;
@@ -45,5 +47,7 @@ export interface CustomerRegistration {
     contactPersonEmail: string;
     contactPersonPhone: string;
     notes: string;
+
+    [key: string]: any;
   }
   

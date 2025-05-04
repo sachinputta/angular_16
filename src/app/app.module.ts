@@ -33,6 +33,9 @@ import { SignupComponent } from './components/signup/signup.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
 import { WelcomepageComponent } from './components/welcomepage/welcomepage.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { AdminNavbarComponent } from './components/admin-navbar/admin-navbar.component';
+import { AdminCustomersViewComponent } from './components/admin-customers-view/admin-customers-view.component';
+import { AnnouncementComponent } from './components/announcement/announcement.component';
 @NgModule({
     declarations: [
         AppComponent,
@@ -54,6 +57,9 @@ import { NavbarComponent } from './components/navbar/navbar.component';
         SignupComponent,
         UnauthorizedComponent,
         WelcomepageComponent,
+        AdminNavbarComponent,
+        AdminCustomersViewComponent,
+        AnnouncementComponent,
     ],
     imports: [
         BrowserModule,

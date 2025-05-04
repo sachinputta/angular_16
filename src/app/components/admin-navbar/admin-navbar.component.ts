@@ -1,26 +1,25 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
 import { CustomerService } from 'src/app/customer.service';
 import Swal from 'sweetalert2';
-
-
 
 declare var bootstrap: any;
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+  selector: 'app-admin-navbar',
+  templateUrl: './admin-navbar.component.html',
+  styleUrls: ['./admin-navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
-  changePasswordForm!: FormGroup;
+export class AdminNavbarComponent {
+ changePasswordForm!: FormGroup;
 
   isSalesOpen = false;
   isPurchasesOpen = false;
 
-
+  
   isEditMode = false;
 
   companyName: string = '';
@@ -29,13 +28,7 @@ export class NavbarComponent implements OnInit {
   state: string = '';
   country: string = '';
   customerId: string = '';
-  pan: string ='';
-  gstin: string='';
-  cin: string='';
 
-
-  selectedFile: File | null = null;
-  previewUrl: string | null = null;
 
 
   constructor(private router: Router, private fb: FormBuilder,
@@ -63,23 +56,15 @@ export class NavbarComponent implements OnInit {
     const modal = new bootstrap.Modal(modalElement);
     modal.show();
   }
-  allowOnlyNumbers(event: KeyboardEvent) {
-    const charCode = event.charCode;
-    if (charCode < 48 || charCode > 57) {
-      event.preventDefault(); // Block non-numeric keys
-    }
-  }
-
- 
-
+  
 
 
   loadCustomerProfile(): void {
     const customerId = sessionStorage.getItem('customerId');  // Get from local storage
-
+  
     if (customerId) {
-      this.customerId = customerId;
-
+      this.customerId = customerId; 
+  
       this.customerService.getCustomerProfile(this.customerId).subscribe(
         (res) => {
           this.companyName = res.companyName;
@@ -87,9 +72,6 @@ export class NavbarComponent implements OnInit {
           this.phoneNumber = res.phoneNumber;
           this.state = res.state;
           this.country = res.country;
-          this.cin = res.cin;
-          this.pan = res.pan;
-          this.gstin = res.gstin;
         },
         (err) => {
           console.error('Error loading profile:', err);
@@ -99,7 +81,7 @@ export class NavbarComponent implements OnInit {
       console.warn('No customerId found in local storage');
     }
   }
-
+  
 
   openProfileModal() {
     this.resetToViewMode(); // Always reset before opening modal
@@ -120,16 +102,21 @@ export class NavbarComponent implements OnInit {
   }
 
   getCompanySuffixName(name: string): string {
-    if (!name) return 'Accounting';
+    if (!name) return 'Admin';
     const firstWord = name.trim().split(' ')[0];
-    return `${firstWord} Accounting`;
+    return `${firstWord} Admin`;
   }
 
   cancelEdit() {
     this.isEditMode = false;
   }
 
-
+  allowOnlyNumbers(event: KeyboardEvent) {
+    const charCode = event.charCode;
+    if (charCode < 48 || charCode > 57) {
+      event.preventDefault(); // Block non-numeric keys
+    }
+  }
 
 
   passwordMatchValidator(control: AbstractControl): { [key: string]: boolean } | null {
@@ -241,9 +228,6 @@ export class NavbarComponent implements OnInit {
       customerEmail: this.companyEmail,
       phoneNumber: this.phoneNumber,
       imagePath: null,
-      pan: this.pan,
-      gstin: this.gstin,
-      cin: this.cin,
       state: this.state,
       country: this.country
     };
@@ -258,52 +242,6 @@ export class NavbarComponent implements OnInit {
         alert('Failed to update profile');
       }
     });
-  }
-
-
-
-  toggleDropdown(menu: string, event: Event) {
-    event.preventDefault();
-    event.stopPropagation(); // Prevents event bubbling
-
-    if (menu === 'sales') {
-      this.isSalesOpen = !this.isSalesOpen;
-      this.isPurchasesOpen = false; // Close other dropdown
-    } else if (menu === 'purchases') {
-      this.isPurchasesOpen = !this.isPurchasesOpen;
-      this.isSalesOpen = false; // Close other dropdown
-    }
-  }
-
-
-  isSalesRouteActive(): boolean {
-    const currentUrl = this.router.url;
-    const salesRoutes = [
-      '/allcustomers',
-      '/allquotes',
-      '/proformas',
-      '/sales-orders',
-      '/delivery-challans',
-      '/invoices',
-      '/payment-received',
-      '/recurring-invoices',
-      '/credit-notes'
-    ];
-    return salesRoutes.some(route => currentUrl.startsWith(route));
-  }
-
-
-  isPurchasesRouteActive(): boolean {
-    const currentUrl = this.router.url;
-    const purchaseRoutes = [
-      '/vendors',
-      '/expenses',
-      '/purchase-orders',
-      '/bills',
-      '/payment-made',
-      '/vendor-credits'
-    ];
-    return purchaseRoutes.some(route => currentUrl.startsWith(route));
   }
 
 

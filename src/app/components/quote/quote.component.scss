@@ -1,9 +1,10 @@
-/* .quote-container {
-  width: 60%;
-  padding: 20px;
+.quote-container {
+  width: 100%;
+  min-width: 1400px; /* Increase as needed */
+  padding: 10px; /* Reduce padding to increase content area */
   box-sizing: border-box;
+  margin: 0 auto;
 }
-
 .quote-header {
   display: flex;
   justify-content: space-between;
@@ -100,7 +101,7 @@ table th {
   color: white;
   border: none;
 }
- */
+ 
  .btn {
     padding: 6px 14px;
     border: none;

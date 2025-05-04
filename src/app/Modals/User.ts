@@ -1,12 +1,14 @@
-// src/app/models/user.ts
+
 export interface User {
     customerId: string;
     companyName: string;
-    // lastName: string;
     customerEmail: string;
     phoneNumber: number;
     address: string;
     state: string;
+    pan: string;
+    gstin: string;
+    cin: string;
     roles: { roleName: string }[];
   }
   

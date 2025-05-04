@@ -1,65 +1,165 @@
-<!-- 
 <app-navbar></app-navbar>
 
-<div class="container-fluid d-flex">
+<!-- Main Container adjusted for sidebar and navbar -->
+<div class="main-container d-flex" style="margin-left: 250px; ">
+  <!-- Left Panel: Proforma List -->
+  <div class="col-4 p-3 border-end bg-white" style="height: calc(100vh - 60px); overflow-y: auto;">
 
-    <div class="col-4 p-3 border-end bg-light">
-      <h5 class="mb-3">All Proforma Invoices</h5>
-      <ul class="list-group">
-        <li class="list-group-item list-group-item-action"
-            *ngFor="let invoice of invoices"
-            (click)="selectInvoice(invoice)">
-          {{ invoice.invoiceNo }} - ₹{{ invoice.totalAmount }}
-        </li>
-      </ul>
-    </div>
-  
- 
-    <div class="col-8 p-3">
-      <app-proforma-invoice-detail [invoice]="selectedInvoice"></app-proforma-invoice-detail>
-    </div>
-  </div>
-   -->
-
-
-   <app-navbar></app-navbar>
-
-   <!-- Main Container adjusted for sidebar and navbar -->
-   <div class="main-container d-flex" style="margin-left: 250px; ">
-     <!-- Left Panel: Proforma List -->
-     <div class="col-4 p-3 border-end bg-white" style="height: calc(100vh - 60px); overflow-y: auto;">
-      <h5 class="mb-3 fw-bold text">
-        All Proforma Invoices
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="fw-bold text mb-0">
+        Proforma Invoices
         <i class="bi bi-caret-down-fill text-success ms-2"></i>
       </h5>
-      
-      
-   
-       <ul class="list-group">
-        <li class="list-group-item list-group-item-action shadow-sm"
-        *ngFor="let invoice of invoices"
-        (click)="selectInvoice(invoice)"
-        [class.active]="selectedInvoice?.invoiceNo === invoice.invoiceNo"
-        style="border-radius: 8px; margin-bottom: 12px;  transition: box-shadow 0.2s ease;">
-      
-      <!-- Row 1: Name & Amount -->
-      <div class="d-flex justify-content-between align-items-center">
-        <strong>{{ invoice.billingAddress }}</strong>
-        <span class="badge bg-success">₹{{ invoice.totalAmount }}</span>
+
+      <button class="btn btn-sm btn-primary shadow-sm" (click)="openModal()">
+        <i class="bi bi-plus-circle me-1"></i> New Invoice
+      </button>
+    </div>
+
+
+    <ul class="list-group">
+      <li class="list-group-item list-group-item-action shadow-sm" *ngFor="let invoice of filteredProformaInvoices"
+        (click)="selectInvoice(invoice)" [class.active]="selectedInvoice?.proformaCode === invoice.proformaCode"
+        style="border-radius: 8px; margin-bottom: 12px; transition: box-shadow 0.2s ease;">
+
+        <!-- Row 1: Customer Name & Total Amount -->
+        <div class="d-flex justify-content-between align-items-center">
+          <strong>{{ invoice.customerName }}</strong>
+          <span class="badge bg-success">₹{{ invoice.totalAmount }}</span>
+        </div>
+
+        <!-- Row 2: Proforma Code & Date -->
+        <div class="mt-1 text-muted small">
+          <strong>{{ invoice.proformaCode }}</strong> &nbsp;&nbsp; {{ invoice.date }}
+        </div>
+      </li>
+    </ul>
+
+
+
+
+  </div>
+
+  <!-- Right Panel: Preview -->
+  <div class="col-8 p-4 bg-light" style="height: calc(100vh - 60px); overflow-y: auto;">
+    <app-proforma-invoice-detail [invoice]="selectedInvoice"></app-proforma-invoice-detail>
+
+
+  </div>
+</div>
+
+
+<!-- Proforma Invoice Modal -->
+<div class="modal-overlay" *ngIf="showProformaModal">
+  <div class="modal-content">
+    <h2 class="modal-title custom-modal-title">Create Proforma Invoice</h2>
+
+    <form (ngSubmit)="createNewInvoice()" #proformaForm="ngForm">
+
+      <!-- Customer Dropdown -->
+      <div class="form-group custom-select-wrapper">
+        <label><strong>Customer</strong></label>
+        <div class="position-relative">
+          <select class="form-control custom-select" [(ngModel)]="selectedCustomer" name="customer"
+            (change)="onCustomerChange()" required>
+            <option value="" disabled selected>Select Customer</option>
+            <option *ngFor="let customer of customers" [ngValue]="customer">
+              {{ customer.firstName }} {{ customer.lastName }}
+            </option>
+          </select>
+          <span class="custom-arrow">&#9662;</span>
+        </div>
       </div>
-    
-      <!-- Row 2: PI No + Date inline -->
-      <div class="mt-1 text-muted small">
-        <strong>{{ invoice.invoiceNo }}</strong> &nbsp;&nbsp; {{ invoice.date }}
+
+      <!-- Customer Email -->
+      <div class="form-group">
+        <label><strong>Customer Email</strong></label>
+        <input type="email" class="form-control" [(ngModel)]="newInvoice.customerEmail" name="customerEmail" readonly />
       </div>
-    </li>
-    
-       </ul>
-     </div>
-   
-     <!-- Right Panel: Preview -->
-     <div class="col-8 p-4 bg-light" style="height: calc(100vh - 60px); overflow-y: auto;">
-       <app-proforma-invoice-detail [invoice]="selectedInvoice"></app-proforma-invoice-detail>
-     </div>
-   </div>
-   
+
+      <!-- Technology -->
+
+      <div class="form-group">
+        <label><strong>Technology</strong></label>
+        <input type="text" class="form-control" [(ngModel)]="newInvoice.technology" name="technology" required />
+      </div>
+
+
+      <!-- Item List -->
+      <div *ngFor="let item of newInvoice.items; let i = index" class="border p-3 mb-3 rounded bg-white shadow-sm">
+        <h6 class="text-muted">Item {{ i + 1 }}</h6>
+
+        <div class="form-group">
+          <label><strong>Item Package</strong></label>
+          <input type="text" class="form-control" [(ngModel)]="item.itemPackage" name="itemPackage{{i}}" required>
+        </div>
+
+        <div class="form-group">
+          <label><strong>Transaction Date</strong></label>
+          <input type="date" class="form-control" [(ngModel)]="item.transactionDate" name="transactionDate{{i}}"
+            required>
+        </div>
+
+        <div class="row">
+          <div class="col">
+            <label><strong>Period From</strong></label>
+            <input type="date" class="form-control" [(ngModel)]="item.periodFrom" name="periodFrom{{i}}" required>
+          </div>
+          <div class="col">
+            <label><strong>Period To</strong></label>
+            <input type="date" class="form-control" [(ngModel)]="item.periodTo" name="periodTo{{i}}" required>
+          </div>
+        </div>
+
+        <div class="form-group mt-2">
+          <label><strong>HSN / SAC</strong></label>
+          <input type="text" class="form-control" [(ngModel)]="item.hscSac" name="hscSac{{i}}" required>
+        </div>
+
+        <div class="row mt-2">
+
+          <div class="col">
+            <label><strong>Charges (₹)</strong></label>
+            <input type="number" class="form-control" [(ngModel)]="item.charges" name="charges{{i}}"
+              (input)="onChargesChange(item, i)" min="0" required>
+          </div>
+
+          <div class="col">
+            <label><strong>Discount (₹)</strong></label>
+            <input type="number" class="form-control" [(ngModel)]="item.discount" name="discount{{i}}"
+              [max]="item.charges" (input)="onDiscountChange(item, i)" min="0">
+
+          </div>
+
+          <div class="col">
+            <label><strong>Total</strong></label>
+            <input type="text" class="form-control" [value]="getItemTotal(item) | currency:'INR'" readonly>
+          </div>
+
+
+        </div>
+
+        <!-- Remove Item Button -->
+        <div class="text-end mt-2">
+          <button type="button" class="btn btn-outline-danger btn-sm" (click)="removeProformaItem(i)">
+            <i class="bi bi-trash"></i> Remove Item
+          </button>
+        </div>
+      </div>
+
+      <!-- Add More Items -->
+      <div class="text-center mb-3">
+        <button type="button" class="btn btn-success btn-sm" (click)="addProformaItem()">
+          + Add Item
+        </button>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="modal-buttons">
+        <button type="submit" class="btn btn-primary" [disabled]="!proformaForm.valid">Create Invoice</button>
+        <button type="button" class="btn btn-secondary" (click)="closeProformaModal()">Cancel</button>
+      </div>
+
+    </form>
+  </div>
+</div>

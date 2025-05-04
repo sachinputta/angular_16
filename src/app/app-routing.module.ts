@@ -17,12 +17,20 @@ import { AllquotesComponent } from './components/allquotes/allquotes.component';
 import { ProformaInvoiceListComponent } from './components/proforma-invoice-list/proforma-invoice-list.component';
 import { ProformaInvoiceDetailComponent } from './components/proforma-invoice-detail/proforma-invoice-detail.component';
 import { UnauthorizedComponent } from './components/unauthorized/unauthorized.component';
+import { AdminCustomersViewComponent } from './components/admin-customers-view/admin-customers-view.component';
+import { AnnouncementComponent } from './components/announcement/announcement.component';
 
 const routes: Routes = [
-    // {path: '', component: HomeDemoThreeComponent},
-    // {path: 'index-2', component: HomeDemoTwoComponent},
-    // {path: 'index-3', component: HomeDemoThreeComponent},
-
+    {
+      path: 'admin-customers-view', component: AdminCustomersViewComponent,
+      canActivate: [RoleGuard],
+      data: { roles: ['Admin', 'ROLE_Admin'] }
+    },
+    {
+      path: 'announcements', component: AnnouncementComponent ,
+      canActivate: [RoleGuard],
+      data: { roles: ['Admin', 'ROLE_Admin'] }
+    },
     { path: 'login', component: LoginComponent },
     { path: 'signup', component: SignupComponent },
     {

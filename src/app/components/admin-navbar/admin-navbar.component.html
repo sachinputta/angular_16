@@ -21,15 +21,14 @@
   <!-- Icons -->
   <div class="d-flex align-items-center ms-auto">
     <!-- Notification -->
-    <button class="btn btn-outline-light me-3">
+    <!-- <button class="btn btn-outline-light me-3">
       <i class="bi bi-bell"></i>
-    </button>
+    </button> -->
 
     <!-- Profile Dropdown -->
     <div class="dropdown me-3">
       <button class="btn btn-outline-light dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-        <!-- <img src="https://i.pravatar.cc/150" alt="Profile" class="rounded-circle" width="30" height="30"> -->
-        <!-- <span class="ms-2">Minad Accounting</span> -->
+       
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="Profile" class="rounded-circle" width="30"
           height="30">
 
@@ -43,9 +42,6 @@
             <i class="bi bi-person-circle me-2"></i> My Profile
           </a>
 
-          <!-- <a class="dropdown-item d-flex align-items-center" style="font-weight: bold;" (click)="openModal()">
-            <i class="bi bi-person-circle me-2"></i> My Profile
-          </a> -->
         </li>
 
 
@@ -80,72 +76,16 @@
 
 
 <div class="sidebar">
-  <a class="nav-link" routerLink="/customer-homepage" [routerLinkActive]="'active'"
+  <a class="nav-link" routerLink="/admin-homepage" [routerLinkActive]="'active'"
     [routerLinkActiveOptions]="{ exact: true }">
-    <i class="fas fa-home"></i> Home
+    <i class="fas fa-home"></i> Dashboard
   </a>
 
-  <a class="nav-link" routerLink="/itemspage" [routerLinkActive]="'active'"><i class="fas fa-box"></i> Items</a>
-  <a routerLink="/banking"><i class="fas fa-university"></i> Banking</a>
-
-  <div class="dropdown">
-    <!-- <a href="#" (click)="toggleDropdown('sales', $event)" class="dropdown-toggle" [routerLinkActive]="'active'">
-      <i class="fas fa-chart-line"></i> Sales
-      <i class="dropdown-icon"></i>
-    </a> -->
-
-    <a href="#" (click)="toggleDropdown('sales', $event)" class="dropdown-toggle"
-      [ngClass]="{ 'active-highlight': isSalesRouteActive() }">
-      <i class="fas fa-chart-line"></i> Sales
-      <i class="dropdown-icon"></i>
-    </a>
-    <!-- <ul class="dropdown-menu" [ngClass]="{ 'show': isSalesOpen }" (click)="$event.stopPropagation()"> -->
-    <ul class="dropdown-menu" [ngClass]="{ 'show': isSalesOpen || isSalesRouteActive() }"
-      (click)="$event.stopPropagation()">
-
-      <li><a class="dropdown-item nav-link " routerLink="/allcustomers" [routerLinkActive]="'active'"><i
-            class="fas fa-user"></i> Customers</a></li>
-
-      <li><a class="dropdown-item" routerLink="/allquotes" [routerLinkActive]="'active'"><i class="fas fa-file-alt"></i>
-          Quotes</a></li>
-      <li><a class="dropdown-item" routerLink="/proformas" [routerLinkActive]="'active'"><i
-            class="fas fa-file-invoice"></i> Proforma
-          Invoices</a></li>
-      <li><a class="dropdown-item" routerLink="/sales-orders"><i class="fas fa-shopping-cart"></i> Sales Orders</a></li>
-      <li><a class="dropdown-item" routerLink="/delivery-challans"><i class="fas fa-truck"></i> Delivery Challans</a>
-      </li>
-      <li><a class="dropdown-item" routerLink="/invoices"><i class="fas fa-receipt"></i> Invoices</a></li>
-      <li><a class="dropdown-item" routerLink="/payment-received"><i class="fas fa-dollar-sign"></i> Payment
-          Received</a></li>
-      <li><a class="dropdown-item" routerLink="/recurring-invoices"><i class="fas fa-sync-alt"></i> Recurring
-          Invoices</a></li>
-      <li><a class="dropdown-item" routerLink="/credit-notes"><i class="fas fa-sticky-note"></i> Credit Notes</a></li>
-    </ul>
-  </div>
+  <a class="nav-link" routerLink="/admin-customers-view" [routerLinkActive]="'active'"><i class="fas fa-users"></i> All Customers</a>
+<a class="nav-link" routerLink="/announcements" [routerLinkActive]="'active'"><i class="fas fa-bullhorn"></i> Announcements</a>
 
 
-  <div class="dropdown">
-    <a href="#" (click)="toggleDropdown('purchases', $event)" class="dropdown-toggle"
-      [ngClass]="{ 'active-highlight': isPurchasesRouteActive() }">
-      <i class="fas fa-shopping-bag"></i> Purchases
-      <i class="dropdown-icon"></i>
-    </a>
-    <!-- <ul class="dropdown-menu" [ngClass]="{ 'show': isPurchasesOpen }" (click)="$event.stopPropagation()"> -->
-    <ul class="dropdown-menu" [ngClass]="{ 'show': isPurchasesOpen || isPurchasesRouteActive() }"
-      (click)="$event.stopPropagation()">
-      <li><a class="dropdown-item" routerLink="/vendors"><i class="fas fa-user-tie"></i> Vendors</a></li>
-      <li><a class="dropdown-item" routerLink="/expenses"><i class="fas fa-money-bill-wave"></i> Expenses</a></li>
-      <li><a class="dropdown-item" routerLink="/purchase-orders"><i class="fas fa-clipboard-list"></i> Purchase
-          Orders</a></li>
-      <li><a class="dropdown-item" routerLink="/bills"><i class="fas fa-file-invoice-dollar"></i> Bills</a></li>
-      <li><a class="dropdown-item" routerLink="/payment-made"><i class="fas fa-credit-card"></i> Payment Made</a></li>
-      <li><a class="dropdown-item" routerLink="/vendor-credits"><i class="fas fa-hand-holding-usd"></i> Vendor
-          Credits</a></li>
-    </ul>
-  </div>
 
-  <a routerLink="/reports"><i class="fas fa-chart-pie"></i> Reports</a>
-  <a routerLink="/documents" style="margin-bottom: 80px;"><i class="fas fa-file"></i> Documents</a>
 </div>
 
 
@@ -235,13 +175,11 @@
       </div>
 
       <!-- Modal Body -->
-      <div class="modal-body text-center" style="max-height: 70vh; overflow-y: auto;">
+      <div class="modal-body text-center">
 
         <!-- Profile Image -->
         <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
           class="rounded-circle border border-3 border-secondary mb-2" width="100" height="100" alt="Profile">
-
-  
 
 
         <!-- Edit Profile Button (hidden in edit mode) -->
@@ -266,21 +204,6 @@
             <div class="col-7 text-start">{{ phoneNumber }}</div>
           </div>
           <div class="row mb-2 align-items-center">
-            <div class="col-5 text-end fw-bold">PAN:</div>
-            <div class="col-7 text-start">{{ pan }}</div>
-          </div>
-        
-          <div class="row mb-2 align-items-center">
-            <div class="col-5 text-end fw-bold">GSTIN:</div>
-            <div class="col-7 text-start">{{ gstin }}</div>
-          </div>
-        
-          <div class="row mb-2 align-items-center">
-            <div class="col-5 text-end fw-bold">CIN:</div>
-            <div class="col-7 text-start">{{ cin }}</div>
-          </div>
-          
-          <div class="row mb-2 align-items-center">
             <div class="col-5 text-end fw-bold">State :</div>
             <div class="col-7 text-start">{{ state }}</div>
           </div>
@@ -296,32 +219,16 @@
             <label class="form-label fw-semibold">Company Name</label>
             <input type="text" class="form-control" [(ngModel)]="companyName" name="companyName">
           </div>
-
+          <!-- <div class="mb-3">
+            <label class="form-label fw-semibold">Phone No</label>
+            <input type="tel" class="form-control" [(ngModel)]="phoneNumber" name="phoneNumber">
+          </div> -->
           <div class="mb-3">
             <label class="form-label fw-semibold">Phone No</label>
             <input type="tel" class="form-control" [(ngModel)]="phoneNumber" name="phoneNumber" pattern="^[0-9]{10}$"
               inputmode="numeric" maxlength="10" required placeholder="Enter 10-digit phone number"
               (keypress)="allowOnlyNumbers($event)">
           </div>
-
-          <div class="mb-3">
-            <label class="form-label fw-semibold">PAN</label>
-            <input type="text" class="form-control" [(ngModel)]="pan" name="pan" pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
-              maxlength="10" required placeholder="Enter PAN (e.g. ABCDE1234F)">
-          </div>
-        
-          <div class="mb-3">
-            <label class="form-label fw-semibold">GSTIN</label>
-            <input type="text" class="form-control" [(ngModel)]="gstin" name="gstin" pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}[A-Z]{1}[0-9]{1}$"
-              maxlength="15" required placeholder="Enter GSTIN">
-          </div>
-        
-          <div class="mb-3">
-            <label class="form-label fw-semibold">CIN</label>
-            <input type="text" class="form-control" [(ngModel)]="cin" name="cin" pattern="^[A-Za-z]{1}[A-Za-z0-9]{3}[A-Za-z0-9]{5}[A-Za-z0-9]{4}[0-9]{5}$"
-              maxlength="21" required placeholder="Enter CIN">
-          </div>
-
           <div class="row">
             <div class="col-md-6 mb-3">
               <label class="form-label fw-semibold">State</label>

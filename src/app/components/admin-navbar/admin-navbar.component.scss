@@ -1,0 +1,158 @@
+
+
+.sidebar {
+    width: 240px;
+    height: 100vh; /* Full viewport height */
+    background-color: whitesmoke;
+    color: black;
+    position: fixed;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    overflow-y: auto; /* Enables scrolling for the entire sidebar */
+    max-height: 100vh; /* Prevents overflow beyond viewport */
+}
+
+/* Custom scrollbar for better aesthetics */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: gray;
+    border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+    background: whitesmoke;
+}
+
+.sidebar a {
+    color: black;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    margin-bottom: 10px;
+    margin-right: 5px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.sidebar a i {
+    margin-right: 10px;
+}
+
+.sidebar a:hover {
+    background-color: rgb(104, 110, 117);
+    border-radius: 8px;
+    color: white;
+}
+
+/* Dropdown menu */
+.dropdown-menu {
+    background-color: whitesmoke;
+    list-style: none;
+    padding-left: 5px;
+    padding-right: 5px;
+    display: none; /* Initially hidden */
+    position: relative;
+}
+
+/* Show dropdown when class is added */
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-menu a {
+    color: black;
+    padding-left: 20px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+}
+
+.dropdown-menu a i {
+    margin-right: 10px;
+}
+
+.dropdown-menu a:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* Dropdown icon */
+.dropdown-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dropdown-icon {
+    margin-left: auto;
+}
+
+
+
+/*  navbar  */
+
+/* .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(29, 29, 99); 
+  } */
+
+  
+  .sidebar a.active {
+    font-weight: bold;
+    color: white !important;
+    background-color:  #007bff !important;
+    border-radius: 8px;
+
+  }
+  
+
+/* Navbar styling */
+.navbar {
+    height: 70px;
+    background-color:  rgb(29, 29, 99); 
+    position: relative;
+    z-index: 1000;
+  }
+  
+  /* Ensure dropdowns don't affect navbar height */
+  .navbar .dropdown-menu {
+    position: absolute !important;
+    top: 100% !important;
+    margin-top: 0.5rem;
+    z-index: 1050; /* above navbar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Keep dropdown aligned to right */
+  .navbar .dropdown-menu-end {
+    right: 0;
+    left: auto;
+  }
+  
+  /* Optional: Hide default toggle arrow */
+  .navbar .dropdown-toggle::after {
+    display: none;
+  }
+  
+
+  .modal-content {
+    border-radius: 1rem;
+  }
+  
+  .modal-body label {
+    font-weight: 600;
+  }
+  
+
+  .active-highlight {
+    color: #007bff !important;
+    /* background-color: #007bff !important; */
+  }
+  

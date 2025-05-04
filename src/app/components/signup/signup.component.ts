@@ -33,24 +33,6 @@ export class SignupComponent {
   }
   
 
-  // onSignup(): void {
-  //   if (!this.customer.agreeToTerms) {
-  //     alert('Please agree to terms and conditions.');
-  //     return;
-  //   }
-
-  //   this.customerService.registerCustomer(this.customer).subscribe({
-  //     next: () => {
-  //       alert('Account created successfully!');
-  //       this.router.navigate(['/login']);
-  //     },
-  //     error: (err: any) => {
-  //       console.error(err);
-  //       alert('Signup failed. Please try again.');
-  //     }
-  //   });
-  // }
-
   onSignup(): void {
     if (!this.customer.agreeToTerms) {
       alert('Please agree to terms and conditions.');

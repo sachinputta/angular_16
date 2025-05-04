@@ -40,24 +40,40 @@ export class ItemspageComponent implements OnInit {
     description: '',
     usageUnit: '',
   };
+  customerId: string = '';
+  itemsList: any[] = [];
 
   constructor(private customerService: CustomerService) {}
 
   ngOnInit(): void {
-    this.fetchItems();
+    // this.fetchItems();
+    // this.getItems();
+
+    const storedCustomerId = sessionStorage.getItem('customerId');
+    if (storedCustomerId) {
+      this.customerId = storedCustomerId;
+      this.getItems();
+    } else {
+      console.error('Customer ID not found in sessionStorage!');
+    }
   }
 
-  fetchItems(): void {
-    this.customerService.getItems().subscribe({
-      next: (data: Item[]) => {
-        this.items = data;
-        this.updateFilteredItems();
+
+  getItems(): void {
+    this.customerService.getItemsByCustomerId(this.customerId).subscribe({
+      next: (data) => {
+        this.itemsList = data;
+        this.items = data; // <-- Add this
+        this.filteredItems = [...data]; // Fresh filtered data
+        this.updatePagination(); // Update pagination to match new data
       },
-      error: (error) => {
-        console.error('Error fetching items:', error);
+      error: (err) => {
+        console.error('Error fetching items:', err);
       }
     });
   }
+  
+  
 
   updateFilteredItems(): void {
     this.filteredItems = this.searchQuery.trim()
@@ -126,80 +142,73 @@ export class ItemspageComponent implements OnInit {
     };
   }
 
+
   submitItem(): void {
-    if (!this.newItem.name || this.newItem.rate === null) {
-      alert('Name and Rate are required.');
+    const customerId = sessionStorage.getItem('customerId');
+  
+    if (!customerId) {
+      console.error('Customer ID not found in sessionStorage');
       return;
     }
-
-    const finalItem: Item = {
-      ...this.newItem,
-      purchaseRate: this.newItem.purchaseRate ?? null, // Use null if undefined
-      description: this.newItem.description || 'NA',
-      usageUnit: this.newItem.usageUnit || 'NA',
+  
+    const payload: any = {
+      name: this.newItem.name,
+      purchaseDescription: this.newItem.purchaseDescription,
+      rate: this.newItem.rate,
+      customerId: customerId
     };
-
+  
+    // Add edit-only fields if in edit mode
     if (this.isEditMode) {
-      // Update existing item
-      if (!finalItem.id) {
-        console.error('Item ID is undefined in edit mode');
-        return;
-      }
-      this.customerService.updateItem(finalItem).subscribe({
+      payload.id = this.newItem.id;
+      payload.purchaseRate = this.newItem.purchaseRate;
+      payload.description = this.newItem.description;
+      payload.usageUnit = this.newItem.usageUnit;
+    }
+  
+    if (this.isEditMode) {
+      this.customerService.updateItem(payload).subscribe({
         next: () => {
-          this.fetchItems(); // Refresh items from server
+          console.log('Item updated successfully');
+          this.getItems();
           this.closeModal();
         },
-        error: (error) => {
-          console.error('Error updating item:', error);
-          alert('Failed to update item. Please try again.');
-        }
+        error: (err) => console.error('Error updating item', err)
       });
     } else {
-      // Add new item
-      this.customerService.addItem(finalItem).subscribe({
+      this.customerService.createItem(payload).subscribe({
         next: () => {
-          this.fetchItems(); // Refresh items from server
+          console.log('Item added successfully');
+          this.getItems();
           this.closeModal();
         },
-        error: (error) => {
-          console.error('Error adding item:', error);
-          alert('Failed to add item. Please try again.');
-        }
+        error: (err) => console.error('Error creating item', err)
       });
     }
   }
+  
+
 
   deleteItem(item: Item): void {
     if (!item.id) {
       console.error('Item ID is undefined');
       return;
     }
-
+  
     if (confirm('Are you sure you want to delete this item?')) {
-      const itemId = item.id;
-      const originalItems = [...this.items]; // Backup for rollback
-      this.items = this.items.filter(i => i.id !== itemId);
-      this.updateFilteredItems();
-
-      const paginatedItems = this.getPaginatedItems();
-      if (paginatedItems.length === 0 && this.currentPage > 1) {
-        this.currentPage--;
-      }
-
-      this.customerService.deleteItem(itemId).subscribe({
+      this.customerService.deleteItem(item.id).subscribe({
         next: () => {
-          this.updateFilteredItems(); // Ensure UI sync
+          console.log('Item deleted successfully');
+          this.getItems(); // Refresh all items from backend
         },
         error: (error) => {
           console.error('Error deleting item:', error);
-          this.items = originalItems;
-          this.updateFilteredItems();
           alert('Failed to delete item. Please try again.');
         }
       });
     }
   }
+  
 
   goToPage(page: number): void {
     if (page >= 1 && page <= this.totalPages) {

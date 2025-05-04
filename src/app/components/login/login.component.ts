@@ -25,12 +25,12 @@ export class LoginComponent {
         this.authService.storeToken(res.jwtToken);
 
 
-        // Store the customerId in localStorage
+        // Store the customerId in sessionStorage
         const customerId = res.customer.customerId; 
-        localStorage.setItem('customerId', customerId);
+        sessionStorage.setItem('customerId', customerId);
 
         const role = res.customer.roles[0].roleName;
-        localStorage.setItem('role', role);
+        sessionStorage.setItem('role', role);
 
         this.loginError = '';
         this.isLoading = false;

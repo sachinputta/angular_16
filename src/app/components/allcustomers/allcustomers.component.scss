@@ -83,65 +83,67 @@
     width: 100%;
     border-collapse: collapse;
   }
+
   
-  th,
-  td {
-    padding: 15px;
-    text-align: center;
-  }
   
-  th {
-    background-color: #d3e2ebde;
-    font-weight: bolder;
-    color: black;
+
+
+th, td {
+    padding: 12px; /* Consistent padding */
+    text-align: left;
+    vertical-align: middle; /* Vertically center content */
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    background-color: #f2f2f2; /* Header background */
+}
+
+td.actions {
+    text-align: center; /* Center icons horizontally */
+    display: flex; /* Use flexbox for icon alignment */
+    justify-content: center; /* Center icons */
+    gap: 10px; /* Space between icons */
+    width: 150px; /* Fixed width for Actions column */
+}
+
+.actions i {
+    font-size: 18px; /* Consistent icon size */
     cursor: pointer;
-    white-space: nowrap;
-  }
-  
-  td {
-    border-bottom: 1px solid #dee2e6;
-    color: #212529;
-  }
-  
-  .actions {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .view-icon {
-    color: #17a2b8;
-    cursor: pointer;
-    font-size: 16px;
-    transition: color 0.3s;
-  }
-  
-  .update-icon {
-    color: #ffc107;
-    cursor: pointer;
-    font-size: 16px;
-    transition: color 0.3s;
-  }
-  
-  .delete-icon {
-    color: #dc3545;
-    cursor: pointer;
-    font-size: 16px;
-    transition: color 0.3s;
-  }
-  
-  .view-icon:hover {
-    color: #117a8b;
-  }
-  
-  .update-icon:hover {
-    color: #e0a800;
-  }
-  
-  .delete-icon:hover {
-    color: #c82333;
-  }
+    padding: 5px; /* Padding around icons */
+    transition: color 0.3s; /* Smooth color change on hover */
+}
+
+.view-icon {
+    color: #1e90ff; /* Blue for View */
+}
+
+.view-icon:hover {
+    color: #104e8b; /* Darker blue on hover */
+}
+
+.update-icon {
+    color: #ffa500; /* Yellow for Edit */
+}
+
+.update-icon:hover {
+    color: #cc8400; /* Darker yellow on hover */
+}
+
+.delete-icon {
+    color: #ff0000; /* Red for Delete */
+}
+
+.delete-icon:hover {
+    color: #cc0000; /* Darker red on hover */
+}
+
+/* Ensure other columns don't stretch disproportionately */
+th:nth-child(1), td:nth-child(1) { width: 20%; } /* Customer Name */
+th:nth-child(2), td:nth-child(2) { width: 20%; } /* Company Name */
+th:nth-child(3), td:nth-child(3) { width: 15%; } /* Customer Type */
+th:nth-child(4), td:nth-child(4) { width: 25%; } /* Email */
+th:nth-child(5), td:nth-child(5) { width: 15%; } /* Mobile Number */
   
   .pagination {
     display: flex;
@@ -194,3 +196,103 @@
     vertical-align: middle;
   }
   
+
+  /* Custom styling for the modal */
+.modal-content {
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.modal-header {
+  background-color: rgb(29, 29, 99);
+  color: white;
+}
+
+.nav-tabs {
+  border-bottom: 2px solid #ddd;
+}
+
+.nav-tabs .nav-link {
+  font-weight: bold;
+  color: #007bff;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: rgb(29, 29, 99);
+  color: white;
+}
+
+.tab-content {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+
+.custom-modal {
+  max-width: 70%; 
+  padding-top: 50px;
+ 
+}
+
+/* Remove top border from modal footer */
+.modal-footer {
+  border-top: none !important; /* Ensure no top border */
+  justify-content: center;
+}
+
+
+/* Center the customer info container with a fixed height */
+.customer-info-container {
+  display: flex;
+  flex-direction: column; /* Align items vertically */
+  justify-content: center; /* Center the content vertically */
+  align-items: center; /* Center the content horizontally */
+  // margin-top: 10px;
+  font-family: Arial, sans-serif;
+  text-align: center; /* Center text inside the container */
+  height: 250px; /* Set a fixed height (adjust as needed) */
+  overflow-y: auto; /* Allow scrolling if content exceeds height */
+}
+
+
+/* Flexbox for label and value side by side */
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  // margin-bottom: 15px;
+  padding: 5px;
+  width: 100%; /* Ensure items take full width */
+  max-width: 600px; /* Limit the max width */
+  text-align: left; /* Align text to the left */
+}
+
+/* Style for labels */
+.info-label {
+  font-weight: bold;
+  color: black; /* Blue color for labels */
+  font-size: 1.1rem;
+  font-weight: bolder;
+  width: 40%; /* Occupy 40% of the width */
+  text-align: right; /* Align the label to the left */
+  
+}
+
+/* Style for values */
+.info-value {
+  font-size: 1rem;
+  color: #555;
+  width: 55%; /* Occupy the remaining width */
+  text-align: left; /* Align the value to the left */
+}
+
+/* Styling for email link */
+.info-value a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.info-value a:hover {
+  text-decoration: underline;
+}

@@ -1,234 +1,3 @@
-<!-- <app-navbar></app-navbar>
-
-
-<div class="new-customer-container">
-    <h3 style="text-align: center; 
-    margin: 0 auto 15px auto;  
-    font-size: 24px; 
-    font-weight: bold; 
-    color: #2c3e50; 
-    text-transform: uppercase; 
-    letter-spacing: 1px; 
-    border-bottom: 3px solid #27ae60; 
-    padding-bottom: 5px; 
-    display: block; 
-    width: fit-content;">
-        CUSTOMER REGISTRATION
-    </h3>
-
-
-
-    <form>
-    
-        <div class="tabs">
-            <button class="tab active" (click)="activeTab = 'customerDetails'"
-                [ngClass]="{'active': activeTab === 'customerDetails'}">CUSTOMER DETAILS</button>
-            <button class="tab" (click)="activeTab = 'address'"
-                [ngClass]="{'active': activeTab === 'address'}">ADDRESS</button>
-            <button class="tab" (click)="activeTab = 'taxCompliance'"
-                [ngClass]="{'active': activeTab === 'taxCompliance'}">TAX & COMPLIANCE</button>
-            <button class="tab" (click)="activeTab = 'paymentAccounting'"
-                [ngClass]="{'active': activeTab === 'paymentAccounting'}">PAYMENT & ACCOUNTING</button>
-            <button class="tab" (click)="activeTab = 'additionalInfo'"
-                [ngClass]="{'active': activeTab === 'additionalInfo'}">ADDITIONAL INFORMATION</button>
-        </div>
-
-        <div class="tab-content">
-     
-            <div *ngIf="activeTab === 'customerDetails'">
-
-                
-                <div class="form-group">
-                    <label>CUSTOMER TYPE <span class="info-icon">ⓘ</span></label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="customerType" value="business" checked> Business
-                        </label>
-                        <label>
-                            <input type="radio" name="customerType" value="individual"> Individual
-                        </label>
-                    </div>
-                </div>
-             
-                <div class="form-group">
-                    <label>CUSTOMER NAME (INDIVIDUAL/COMPANY) <span class="info-icon">ⓘ</span></label>
-                    <div class="contact-group">
-                        <select>
-                            <option>Salutation</option>
-                            <option>Mr.</option>
-                            <option>Ms.</option>
-                            <option>Mrs.</option>
-                        </select>
-                        <input type="text" placeholder="FIRST NAME">
-                        <input type="text" placeholder="LAST NAME">
-                    </div>
-                </div>
-
-                
-                <div class="form-group">
-                    <label>COMPANY NAME (IF APPLICABLE)</label>
-                    <input type="text" placeholder="Enter company name">
-                </div>
-
-
-
-           
-                <div class="form-group">
-                    <label>EMAIL <span class="info-icon">ⓘ</span></label>
-                    <div class="email-group">
-                        <span class="email-icon">📧</span>
-                        <input type="email" placeholder="Enter email">
-                    </div>
-                </div>
-
-         
-                <div class="form-group">
-                    <label>PHONE NUMBER <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter phone number">
-                </div>
-
-                <div class="form-group">
-                    <label>MOBILE NUMBER <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter mobile number">
-                </div>
-            </div>
-
-           
-            <div *ngIf="activeTab === 'address'">
-          
-                <div class="form-group">
-                    <label>BILLING ADDRESS <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Street">
-                    <input type="text" placeholder="City">
-                    <input type="text" placeholder="State">
-                    <input type="text" placeholder="Country">
-                    <input type="text" placeholder="ZIP Code">
-                </div>
-
-                <div class="form-group">
-                    <label>SHIPPING ADDRESS (IF DIFFERENT FROM BILLING) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Street">
-                    <input type="text" placeholder="City">
-                    <input type="text" placeholder="State">
-                    <input type="text" placeholder="Country">
-                    <input type="text" placeholder="ZIP Code">
-                </div>
-            </div>
-
-    
-            <div *ngIf="activeTab === 'taxCompliance'">
-          
-                <div class="form-group">
-                    <label>GSTIN / VAT / TAX ID (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter GSTIN / VAT / Tax ID">
-                </div>
-
-             
-                <div class="form-group">
-                    <label>PAN (FOR INDIAN CUSTOMERS) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter PAN">
-                </div>
-
-           
-                <div class="form-group">
-                    <label>PLACE OF SUPPLY (STATE FOR GST COMPLIANCE) <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>Select State</option>
-                   
-                        <option>Andhra Pradesh</option>
-                        <option>Karnataka</option>
-                        <option>Maharashtra</option>
-                     
-                    </select>
-                </div>
-
-           
-                <div class="form-group">
-                    <label>CURRENCY (DEFAULT BILLING CURRENCY) <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>INR - Indian Rupee</option>
-                        <option>USD - US Dollar</option>
-                        <option>EUR - Euro</option>
-                    </select>
-                </div>
-            </div>
-
-            <div *ngIf="activeTab === 'paymentAccounting'">
-             
-                <div class="form-group">
-                    <label>PAYMENT TERMS <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>Due on Receipt</option>
-                        <option>Net 15</option>
-                        <option>Net 30</option>
-                        <option>Net 60</option>
-                    </select>
-                </div>
-
-               
-                <div class="form-group">
-                    <label>CREDIT LIMIT (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter credit limit">
-                </div>
-
-           
-                <div class="form-group">
-                    <label>BANK DETAILS (FOR REFUNDS OR PAYOUTS) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Bank Name">
-                    <input type="text" placeholder="Account Number">
-                    <input type="text" placeholder="IFSC Code">
-                </div>
-
-     
-                <div class="form-group">
-                    <label>PREFERRED PAYMENT METHOD <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>Bank Transfer</option>
-                        <option>UPI</option>
-                        <option>Credit Card</option>
-                        <option>Cash</option>
-                    </select>
-                </div>
-            </div>
-
-       
-            <div *ngIf="activeTab === 'additionalInfo'">
-         
-                <div class="form-group">
-                    <label>WEBSITE URL (IF BUSINESS) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter website URL">
-                </div>
-
-                <div class="form-group">
-                    <label>CONTACT PERSON DETAILS <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Name">
-                    <input type="email" placeholder="Email">
-                    <input type="text" placeholder="Phone">
-                </div>
-
-           
-                <div class="form-group">
-                    <label>NOTES / REMARKS <span class="info-icon">ⓘ</span></label>
-                    <textarea placeholder="Enter any special instructions"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>ATTACHMENTS <span class="info-icon">ⓘ</span></label>
-                    <input type="file" multiple>
-                </div>
-            </div>
-        </div>
-
-
-        <div class="form-actions">
-            <button type="submit" class="save-btn">SAVE</button>
-            <button type="button" class="cancel-btn">CANCEL</button>
-        </div>
-    </form>
-</div> -->
-
-
-
 <app-navbar></app-navbar>
 
 
@@ -245,7 +14,7 @@
     background-color: #fff;
 ">
 
-    <h3 style="text-align: center; 
+  <h3 style="text-align: center; 
         margin: 0 auto 15px auto;  
         font-size: 24px; 
         font-weight: bold; 
@@ -256,483 +25,315 @@
         padding-bottom: 5px; 
         display: block; 
         width: fit-content;">
-        CUSTOMER REGISTRATION
-    </h3>
+    CUSTOMER REGISTRATION
+  </h3>
 
-    <form>
+  <form>
 
-        <!-- Tabs -->
-        <div class="tabs">
-            <button class="tab" (click)="activeTab = 'customerDetails'"
-                [ngClass]="{'active': activeTab === 'customerDetails'}">CUSTOMER DETAILS</button>
-            <button class="tab" (click)="activeTab = 'address'"
-                [ngClass]="{'active': activeTab === 'address'}">ADDRESS</button>
-            <button class="tab" (click)="activeTab = 'taxCompliance'"
-                [ngClass]="{'active': activeTab === 'taxCompliance'}">TAX & COMPLIANCE</button>
-            <button class="tab" (click)="activeTab = 'paymentAccounting'"
-                [ngClass]="{'active': activeTab === 'paymentAccounting'}">PAYMENT & ACCOUNTING</button>
-            <button class="tab" (click)="activeTab = 'additionalInfo'"
-                [ngClass]="{'active': activeTab === 'additionalInfo'}">ADDITIONAL INFORMATION</button>
-        </div>
-
-        <!-- Tab Contents -->
-        <!-- <div class="tab-content">
-
-            <div *ngIf="activeTab === 'customerDetails'">
-                <div class="form-group">
-                    <label>CUSTOMER TYPE <span class="info-icon">ⓘ</span></label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="customerType" value="business" checked> Business
-                        </label>
-                        <label>
-                            <input type="radio" name="customerType" value="individual"> Individual
-                        </label>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>CUSTOMER NAME (INDIVIDUAL/COMPANY) <span class="info-icon">ⓘ</span></label>
-                    <div class="contact-group">
-                        <select>
-                            <option>Salutation</option>
-                            <option>Mr.</option>
-                            <option>Ms.</option>
-                            <option>Mrs.</option>
-                        </select>
-                        <input type="text" placeholder="FIRST NAME">
-                        <input type="text" placeholder="LAST NAME">
-                    </div>
-                </div>
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab" (click)="activeTab = 'customerDetails'"
+        [ngClass]="{'active': activeTab === 'customerDetails'}">CUSTOMER DETAILS</button>
+      <button class="tab" (click)="activeTab = 'address'"
+        [ngClass]="{'active': activeTab === 'address'}">ADDRESS</button>
+      <button class="tab" (click)="activeTab = 'taxCompliance'"
+        [ngClass]="{'active': activeTab === 'taxCompliance'}">TAX & COMPLIANCE</button>
+      <button class="tab" (click)="activeTab = 'paymentAccounting'"
+        [ngClass]="{'active': activeTab === 'paymentAccounting'}">PAYMENT & ACCOUNTING</button>
+      <button class="tab" (click)="activeTab = 'additionalInfo'"
+        [ngClass]="{'active': activeTab === 'additionalInfo'}">ADDITIONAL INFORMATION</button>
+    </div>
 
 
-                <div class="form-group">
-                    <label>COMPANY NAME (IF APPLICABLE)</label>
-                    <input type="text" placeholder="Enter company name">
-                </div>
+    <div class="tab-content">
 
-
-
-
-                <div class="form-group">
-                    <label>EMAIL <span class="info-icon">ⓘ</span></label>
-                    <div class="email-group">
-                        <span class="email-icon">📧</span>
-                        <input type="email" placeholder="Enter email">
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>PHONE NUMBER <span class="info-icon">ⓘ</span></label>
-                            <input type="text" class="form-control" placeholder="Enter phone number">
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label>MOBILE NUMBER <span class="info-icon">ⓘ</span></label>
-                            <input type="text" class="form-control" placeholder="Enter mobile number">
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-
-
-            <div *ngIf="activeTab === 'address'">
-
-                <div class="form-group">
-                  <label>BILLING ADDRESS <span class="info-icon">ⓘ</span></label>
-              
-                  <div style="display: flex; gap: 10px;">
-                    <input type="text" placeholder="Street" [(ngModel)]="billing.street" name="billingStreet" style="flex: 1;">
-                    <input type="text" placeholder="City" [(ngModel)]="billing.city" name="billingCity" style="flex: 1;">
-                  </div>
-              
-                  <div style="display: flex; gap: 10px;">
-                    <input type="text" placeholder="State" [(ngModel)]="billing.state" name="billingState" style="flex: 1;">
-                    <input type="text" placeholder="Country" [(ngModel)]="billing.country" name="billingCountry" style="flex: 1;">
-                  </div>
-              
-                  <input type="text" placeholder="ZIP Code" [(ngModel)]="billing.zip" name="billingZip">
-                </div>
-              
-
-                <div style="margin-bottom: 15px;">
-                    <input 
-                      type="checkbox" 
-                      id="sameAddress" 
-                      (change)="copyBillingToShipping($event)"
-                      [disabled]="!isBillingComplete()">
-                    <label for="sameAddress" style="font-weight: bold;">&nbsp; Shipping address is same as billing address</label>
-                  </div>
-                  
-              
-                <div class="form-group">
-                  <label>SHIPPING ADDRESS (IF DIFFERENT FROM BILLING) <span class="info-icon">ⓘ</span></label>
-              
-                  <div style="display: flex; gap: 10px;">
-                    <input type="text" placeholder="Street" [(ngModel)]="shipping.street" name="shippingStreet" style="flex: 1;">
-                    <input type="text" placeholder="City" [(ngModel)]="shipping.city" name="shippingCity" style="flex: 1;">
-                  </div>
-              
-                  <div style="display: flex; gap: 10px;">
-                    <input type="text" placeholder="State" [(ngModel)]="shipping.state" name="shippingState" style="flex: 1;">
-                    <input type="text" placeholder="Country" [(ngModel)]="shipping.country" name="shippingCountry" style="flex: 1;">
-                  </div>
-              
-                  <input type="text" placeholder="ZIP Code" [(ngModel)]="shipping.zip" name="shippingZip">
-                </div>
-              
-              </div>
-              
-
-            <div *ngIf="activeTab === 'taxCompliance'">
-                <div class="form-group">
-                    <label>GSTIN / VAT / TAX ID (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter GSTIN / VAT / Tax ID">
-                </div>
-
-
-                <div class="form-group">
-                    <label>PAN (FOR INDIAN CUSTOMERS) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter PAN">
-                </div>
-
-
-                <div class="form-group">
-                    <label>PLACE OF SUPPLY (STATE FOR GST COMPLIANCE) <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>Select State</option>
-
-                        <option>Andhra Pradesh</option>
-                        <option>Karnataka</option>
-                        <option>Maharashtra</option>
-
-                    </select>
-                </div>
-
-
-                <div class="form-group">
-                    <label>CURRENCY (DEFAULT BILLING CURRENCY) <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>INR - Indian Rupee</option>
-                        <option>USD - US Dollar</option>
-                        <option>EUR - Euro</option>
-                    </select>
-                </div>
-
-            </div>
-
-            <div *ngIf="activeTab === 'paymentAccounting'">
-
-                <div class="form-group">
-                    <label>PAYMENT TERMS <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>Due on Receipt</option>
-                        <option>Net 15</option>
-                        <option>Net 30</option>
-                        <option>Net 60</option>
-                    </select>
-                </div>
-
-
-                <div class="form-group">
-                    <label>CREDIT LIMIT (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter credit limit">
-                </div>
-
-                <div class="form-group">
-                    <label>BANK DETAILS (FOR REFUNDS OR PAYOUTS) <span class="info-icon">ⓘ</span></label>
-
-                    <input type="text" placeholder="Bank Name">
-
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
-                        <input type="text" placeholder="Account Number" style="flex: 1;">
-                        <input type="text" placeholder="IFSC Code" style="flex: 1;">
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label>PREFERRED PAYMENT METHOD <span class="info-icon">ⓘ</span></label>
-                    <select>
-                        <option>Bank Transfer</option>
-                        <option>UPI</option>
-                        <option>Credit Card</option>
-                        <option>Cash</option>
-                    </select>
-                </div>
-            </div>
-
-            <div *ngIf="activeTab === 'additionalInfo'">
-                <div class="form-group">
-                    <label>WEBSITE URL (IF BUSINESS) <span class="info-icon">ⓘ</span></label>
-                    <input type="text" placeholder="Enter website URL">
-                </div>
-
-
-                <div class="form-group">
-                    <label>CONTACT PERSON DETAILS <span class="info-icon">ⓘ</span></label>
-
-                    <input type="text" placeholder="Name">
-
-                    <div style="display: flex; gap: 10px; margin-top: 10px;">
-                        <input type="email" placeholder="Email" style="flex: 1;">
-                        <input type="text" placeholder="Phone" style="flex: 1;">
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <label>NOTES / REMARKS <span class="info-icon">ⓘ</span></label>
-                    <textarea placeholder="Enter any special instructions"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label>ATTACHMENTS <span class="info-icon">ⓘ</span></label>
-                    <input type="file" multiple>
-                </div>
-            </div>
-        </div> -->
-
-
-
-
-        <div class="tab-content">
-
-            <!-- Customer Details Tab -->
-            <div *ngIf="activeTab === 'customerDetails'">
-              <div class="form-group">
-                <label>CUSTOMER TYPE <span class="info-icon">ⓘ</span></label>
-                <div class="radio-group">
-                  <label>
-    <input type="radio" name="customerType" [(ngModel)]="customer.customerType" value="business"> Business
-                  </label>
-                  <label>
-                    <input type="radio" name="customerType" [(ngModel)]="customer.customerType" value="individual"> Individual
-                  </label>
-                </div>
-              </div>
-          
-              <div class="form-group">
-                <label>CUSTOMER NAME (INDIVIDUAL/COMPANY) <span class="info-icon">ⓘ</span></label>
-                <div class="contact-group">
-                  <select [(ngModel)]="customer.salutation" name="salutation">
-                    <option value="">Salutation</option>
-                    <option value="Mr.">Mr.</option>
-                    <option value="Ms.">Ms.</option>
-                    <option value="Mrs.">Mrs.</option>
-                  </select>
-                  <input type="text" placeholder="FIRST NAME" [(ngModel)]="customer.firstName" name="firstName">
-                  <input type="text" placeholder="LAST NAME" [(ngModel)]="customer.lastName" name="lastName">
-                </div>
-              </div>
-          
-              <div class="form-group">
-                <label>COMPANY NAME (IF APPLICABLE)</label>
-                <input type="text" placeholder="Enter company name" [(ngModel)]="customer.companyName" name="companyName">
-              </div>
-          
-              <div class="form-group">
-                <label>EMAIL <span class="info-icon">ⓘ</span></label>
-                <div class="email-group">
-                  <span class="email-icon">📧</span>
-                  <input type="email" placeholder="Enter email" [(ngModel)]="customer.customerEmail" name="email">
-                </div>
-              </div>
-          
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <label>PHONE NUMBER <span class="info-icon">ⓘ</span></label>
-                  <input type="text" class="form-control" placeholder="Enter phone number" [(ngModel)]="customer.phoneNumber" name="phone">
-                </div>
-          
-                <div class="col-md-6 form-group">
-                  <label>MOBILE NUMBER <span class="info-icon">ⓘ</span></label>
-                  <input type="text" class="form-control" placeholder="Enter mobile number" [(ngModel)]="customer.mobileNumber" name="mobile">
-                </div>
-              </div>
-            </div>
-          
-            <!-- Address Tab -->
-            <div *ngIf="activeTab === 'address'">
-              <div class="form-group">
-                <label>BILLING ADDRESS <span class="info-icon">ⓘ</span></label>
-                <div style="display: flex; gap: 10px;">
-                  <input type="text" placeholder="Street" [(ngModel)]="customer.billingStreet" name="billingStreet" style="flex: 1;">
-                  <input type="text" placeholder="City" [(ngModel)]="customer.billingCity" name="billingCity" style="flex: 1;">
-                </div>
-                <div style="display: flex; gap: 10px;">
-                  <input type="text" placeholder="State" [(ngModel)]="customer.billingState" name="billingState" style="flex: 1;">
-                  <input type="text" placeholder="Country" [(ngModel)]="customer.billingCountry" name="billingCountry" style="flex: 1;">
-                </div>
-                <input type="text" placeholder="ZIP Code" [(ngModel)]="customer.billingZip" name="billingZip">
-              </div>
-          
-              <div style="margin-bottom: 15px;">
-                <input type="checkbox" id="sameAddress" (change)="copyBillingToShipping($event)" [disabled]="!isBillingComplete()">
-                <label for="sameAddress" style="font-weight: bold;">&nbsp; Shipping address is same as billing address</label>
-              </div>
-          
-              <div class="form-group">
-                <label>SHIPPING ADDRESS (IF DIFFERENT FROM BILLING) <span class="info-icon">ⓘ</span></label>
-                <div style="display: flex; gap: 10px;">
-                  <input type="text" placeholder="Street" [(ngModel)]="customer.shippingStreet" name="shippingStreet" style="flex: 1;">
-                  <input type="text" placeholder="City" [(ngModel)]="customer.shippingCity" name="shippingCity" style="flex: 1;">
-                </div>
-                <div style="display: flex; gap: 10px;">
-                  <input type="text" placeholder="State" [(ngModel)]="customer.shippingState" name="shippingState" style="flex: 1;">
-                  <input type="text" placeholder="Country" [(ngModel)]="customer.shippingCountry" name="shippingCountry" style="flex: 1;">
-                </div>
-                <input type="text" placeholder="ZIP Code" [(ngModel)]="customer.shippingZip" name="shippingZip">
-              </div>
-            </div>
-          
-            <!-- Tax Compliance Tab -->
-            <div *ngIf="activeTab === 'taxCompliance'">
-              <div class="form-group">
-                <label>GSTIN / VAT / TAX ID (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
-                <input type="text" placeholder="Enter GSTIN / VAT / Tax ID" [(ngModel)]="customer.taxId" name="taxId">
-              </div>
-          
-              <div class="form-group">
-                <label>PAN (FOR INDIAN CUSTOMERS) <span class="info-icon">ⓘ</span></label>
-                <input type="text" placeholder="Enter PAN" [(ngModel)]="customer.pan" name="pan">
-              </div>
-          
-              <div class="form-group">
-                <label>PLACE OF SUPPLY (STATE FOR GST COMPLIANCE) <span class="info-icon">ⓘ</span></label>
-                <select [(ngModel)]="customer.supplyState" name="supplyState">
-                  <option value="">Select State</option>
-                  <option>Andhra Pradesh</option>
-                  <option>Karnataka</option>
-                  <option>Maharashtra</option>
-                </select>
-              </div>
-          
-              <div class="form-group">
-                <label>CURRENCY (DEFAULT BILLING CURRENCY) <span class="info-icon">ⓘ</span></label>
-                <select [(ngModel)]="customer.currency" name="currency">
-                  <option>INR - Indian Rupee</option>
-                  <option>USD - US Dollar</option>
-                  <option>EUR - Euro</option>
-                </select>
-              </div>
-            </div>
-          
-            <!-- Payment & Accounting Tab -->
-            <div *ngIf="activeTab === 'paymentAccounting'">
-              <div class="form-group">
-                <label>PAYMENT TERMS <span class="info-icon">ⓘ</span></label>
-                <select [(ngModel)]="customer.paymentTerms" name="paymentTerms">
-                  <option>Due on Receipt</option>
-                  <option>Net 15</option>
-                  <option>Net 30</option>
-                  <option>Net 60</option>
-                </select>
-              </div>
-          
-              <div class="form-group">
-                <label>CREDIT LIMIT (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
-                <input type="text" placeholder="Enter credit limit" [(ngModel)]="customer.creditLimit" name="creditLimit">
-              </div>
-          
-              <div class="form-group">
-                <label>BANK DETAILS (FOR REFUNDS OR PAYOUTS) <span class="info-icon">ⓘ</span></label>
-                <input type="text" placeholder="Bank Name" [(ngModel)]="customer.bankName" name="bankName">
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                  <input type="text" placeholder="Account Number" [(ngModel)]="customer.accountNumber" name="accountNumber" style="flex: 1;">
-                  <input type="text" placeholder="IFSC Code" [(ngModel)]="customer.ifscCode" name="ifscCode" style="flex: 1;">
-                </div>
-              </div>
-          
-              <div class="form-group">
-                <label>PREFERRED PAYMENT METHOD <span class="info-icon">ⓘ</span></label>
-                <select [(ngModel)]="customer.preferredPaymentMethod" name="preferredPaymentMethod">
-                  <option>Bank Transfer</option>
-                  <option>UPI</option>
-                  <option>Credit Card</option>
-                  <option>Cash</option>
-                </select>
-              </div>
-            </div>
-          
-            <!-- Additional Info Tab -->
-            <div *ngIf="activeTab === 'additionalInfo'">
-              <div class="form-group">
-                <label>WEBSITE URL (IF BUSINESS) <span class="info-icon">ⓘ</span></label>
-                <input type="text" placeholder="Enter website URL" [(ngModel)]="customer.websiteUrl" name="websiteUrl">
-              </div>
-          
-              <div class="form-group">
-                <label>CONTACT PERSON DETAILS <span class="info-icon">ⓘ</span></label>
-                <input type="text" placeholder="Name" [(ngModel)]="customer.contactPersonName" name="contactPersonName">
-                <div style="display: flex; gap: 10px; margin-top: 10px;">
-                  <input type="email" placeholder="Email" [(ngModel)]="customer.contactPersonEmail" name="contactPersonEmail" style="flex: 1;">
-                  <input type="text" placeholder="Phone" [(ngModel)]="customer.contactPersonPhone" name="contactPersonPhone" style="flex: 1;">
-                </div>
-              </div>
-          
-              <div class="form-group">
-                <label>NOTES / REMARKS <span class="info-icon">ⓘ</span></label>
-                <textarea placeholder="Enter any special instructions" [(ngModel)]="customer.notes" name="notes"></textarea>
-              </div>
-          
-              <!-- <div class="form-group">
-                <label>ATTACHMENTS <span class="info-icon">ⓘ</span></label>
-                <input type="file" (change)="handleFileUpload($event)" multiple>
-              </div> -->
-            </div>
+      <!-- Customer Details Tab -->
+      <div *ngIf="activeTab === 'customerDetails'">
+        <div class="form-group">
+          <label>CUSTOMER TYPE <span class="info-icon">ⓘ</span></label>
+          <div class="radio-group">
+            <label>
+              <input type="radio" name="customerType" [(ngModel)]="customer.customerType" value="business"> Business
+            </label>
+            <label>
+              <input type="radio" name="customerType" [(ngModel)]="customer.customerType" value="individual"> Individual
+            </label>
           </div>
-          
+        </div>
 
+        <div class="form-group">
+          <label>CUSTOMER NAME (INDIVIDUAL/COMPANY) <span class="info-icon">ⓘ</span></label>
+          <div class="contact-group">
+            <select [(ngModel)]="customer.salutation" name="salutation">
+              <option value="">Salutation</option>
+              <option value="Mr.">Mr.</option>
+              <option value="Ms.">Ms.</option>
+              <option value="Mrs.">Mrs.</option>
+            </select>
+            <input type="text" placeholder="FIRST NAME" [(ngModel)]="customer.firstName" name="firstName">
+            <input type="text" placeholder="LAST NAME" [(ngModel)]="customer.lastName" name="lastName">
+          </div>
+        </div>
 
+        <div class="form-group">
+          <label>COMPANY NAME (IF APPLICABLE)</label>
+          <input type="text" placeholder="Enter company name" [(ngModel)]="customer.companyName" name="companyName">
+        </div>
 
+  
+        <div class="form-group">
+          <label>EMAIL <span class="info-icon">ⓘ</span></label>
+          <div class="email-group">
+            <span class="email-icon">📧</span>
+            <input type="email" placeholder="Enter a valid Email Address" [(ngModel)]="customer.customerEmail"
+              name="email" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              title="Please enter a valid email address">
+          </div>
+        </div>
 
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <label>PHONE NUMBER <span class="info-icon">ⓘ</span></label>
+            <input type="text" class="form-control" placeholder="Enter phone number" maxlength="10"
+              [(ngModel)]="customer.phoneNumber" name="phone" (keypress)="allowOnlyDigits($event)">
+          </div>
 
+          <div class="col-md-6 form-group">
+            <label>MOBILE NUMBER <span class="info-icon">ⓘ</span></label>
+            <input type="text" class="form-control" placeholder="Enter mobile number" maxlength="10"
+              [(ngModel)]="customer.mobileNumber" name="mobile" (keypress)="allowOnlyDigits($event)">
+          </div>
+        </div>
 
+      </div>
 
+      <!-- Address Tab -->
+      <div *ngIf="activeTab === 'address'">
+        <div class="form-group">
+          <label>BILLING ADDRESS <span class="info-icon">ⓘ</span></label>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" placeholder="Street" [(ngModel)]="customer.billingStreet" name="billingStreet"
+              style="flex: 1;">
+            <input type="text" placeholder="City" [(ngModel)]="customer.billingCity" name="billingCity"
+              style="flex: 1;">
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" placeholder="State" [(ngModel)]="customer.billingState" name="billingState"
+              style="flex: 1;">
+            <input type="text" placeholder="Country" [(ngModel)]="customer.billingCountry" name="billingCountry"
+              style="flex: 1;">
+          </div>
+      
+          <input type="text" class="form-control" placeholder="ZIP Code" maxlength="6" [(ngModel)]="customer.billingZip"
+            name="billingZip" (keypress)="allowOnlyDigits($event)">
 
+        </div>
 
+        <div style="margin-bottom: 15px;">
+          <input type="checkbox" id="sameAddress" (change)="copyBillingToShipping($event)"
+            [disabled]="!isBillingComplete()">
+          <label for="sameAddress" style="font-weight: bold;">&nbsp; Shipping address is same as billing address</label>
+        </div>
 
+        <div class="form-group">
+          <label>SHIPPING ADDRESS (IF DIFFERENT FROM BILLING) <span class="info-icon">ⓘ</span></label>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" placeholder="Street" [(ngModel)]="customer.shippingStreet" name="shippingStreet"
+              style="flex: 1;">
+            <input type="text" placeholder="City" [(ngModel)]="customer.shippingCity" name="shippingCity"
+              style="flex: 1;">
+          </div>
+          <div style="display: flex; gap: 10px;">
+            <input type="text" placeholder="State" [(ngModel)]="customer.shippingState" name="shippingState"
+              style="flex: 1;">
+            <input type="text" placeholder="Country" [(ngModel)]="customer.shippingCountry" name="shippingCountry"
+              style="flex: 1;">
+          </div>
+          <input type="text" placeholder="ZIP Code" [(ngModel)]="customer.shippingZip" name="shippingZip">
+        </div>
+      </div>
 
-        <!-- Navigation Buttons -->
-        <div class="form-actions"
-            style="display: flex; align-items: center; justify-content: center; margin-top: 15px; gap: 15px; flex-wrap: wrap;">
+      <!-- Tax Compliance Tab -->
+      <div *ngIf="activeTab === 'taxCompliance'">
+        <div class="form-group">
+          <label>GSTIN / VAT / TAX ID (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
+          <input type="text" placeholder="Enter GSTIN / VAT / Tax ID" [(ngModel)]="customer.taxId" name="taxId">
+        </div>
 
-
-
-            <!-- Next Button -->
-            <button type="button" class="next-btn" *ngIf="activeTab !== 'additionalInfo'" (click)="goNext()"
-                style="background-color: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
-                Next
-            </button>
-
-            <!-- Back Button -->
-            <button type="button" class="back-btn" (click)="goBack()" *ngIf="activeTab !== 'customerDetails'"
-                style="background-color: #6c757d; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
-                Back
-            </button>
-
-            <!-- Save/Cancel Buttons -->
-            <div *ngIf="activeTab === 'additionalInfo'" style="display: flex; gap: 10px;">
-                <button type="submit" class="save-btn"
-                    style="background-color: #28a745; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; " (click)="submitForm()">
-                    Submit
-                </button>
-                <button type="button" class="cancel-btn"
-                    style="background-color: #dc3545; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
-                    Cancel
-                </button>
-            </div>
+        <div class="form-group">
+          <label>PAN (FOR INDIAN CUSTOMERS) <span class="info-icon">ⓘ</span></label>
+          <input type="text" placeholder="Enter PAN" [(ngModel)]="customer.pan" name="pan">
         </div>
 
 
-    </form>
+        <div class="form-group">
+          <label>PLACE OF SUPPLY (STATE FOR GST COMPLIANCE) <span class="info-icon">ⓘ</span></label>
+          <select [(ngModel)]="customer.supplyState" name="supplyState">
+            <option value="">Select State</option>
+            <option>Andhra Pradesh</option>
+            <option>Arunachal Pradesh</option>
+            <option>Assam</option>
+            <option>Bihar</option>
+            <option>Chhattisgarh</option>
+            <option>Goa</option>
+            <option>Gujarat</option>
+            <option>Haryana</option>
+            <option>Himachal Pradesh</option>
+            <option>Jharkhand</option>
+            <option>Karnataka</option>
+            <option>Kerala</option>
+            <option>Madhya Pradesh</option>
+            <option>Maharashtra</option>
+            <option>Manipur</option>
+            <option>Meghalaya</option>
+            <option>Mizoram</option>
+            <option>Nagaland</option>
+            <option>Odisha</option>
+            <option>Punjab</option>
+            <option>Rajasthan</option>
+            <option>Sikkim</option>
+            <option>Tamil Nadu</option>
+            <option>Telangana</option>
+            <option>Tripura</option>
+            <option>Uttar Pradesh</option>
+            <option>Uttarakhand</option>
+            <option>West Bengal</option>
+            <option>Andaman and Nicobar Islands</option>
+            <option>Chandigarh</option>
+            <option>Dadra and Nagar Haveli and Daman and Diu</option>
+            <option>Lakshadweep</option>
+            <option>Delhi</option>
+            <option>Puducherry</option>
+          </select>
+        </div>
+        
+
+        <div class="form-group">
+          <label>CURRENCY (DEFAULT BILLING CURRENCY) <span class="info-icon">ⓘ</span></label>
+          <select [(ngModel)]="customer.currency" name="currency">
+            <option value="" disabled selected>Select Currency</option>
+            <option>INR - Indian Rupee</option>
+            <option>USD - US Dollar</option>
+            <option>EUR - Euro</option>
+          </select>
+        </div>
+        
+      </div>
+
+      <!-- Payment & Accounting Tab -->
+      <div *ngIf="activeTab === 'paymentAccounting'">
+        <div class="form-group">
+          <label>PAYMENT TERMS <span class="info-icon">ⓘ</span></label>
+          <select [(ngModel)]="customer.paymentTerms" name="paymentTerms">
+            <option value="" disabled selected>Select Payment Terms</option>
+            <option>Due on Receipt</option>
+            <option>Net 15</option>
+            <option>Net 30</option>
+            <option>Net 60</option>
+          </select>
+        </div>
+        
+
+        <div class="form-group">
+          <label>CREDIT LIMIT (IF APPLICABLE) <span class="info-icon">ⓘ</span></label>
+          <input type="text" class="form-control" placeholder="Enter credit limit" [(ngModel)]="customer.creditLimit"
+            name="creditLimit" (keypress)="allowOnlyDigits($event)">
+        </div>
+
+
+        <div class="form-group">
+          <label>BANK DETAILS (FOR REFUNDS OR PAYOUTS) <span class="info-icon">ⓘ</span></label>
+          <input type="text" placeholder="Bank Name" [(ngModel)]="customer.bankName" name="bankName">
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+          
+            <input type="text" class="form-control" placeholder="Account Number" [(ngModel)]="customer.accountNumber"
+              name="accountNumber" (keypress)="allowOnlyDigits($event)" style="flex: 1;">
+
+            <input type="text" placeholder="IFSC Code" [(ngModel)]="customer.ifscCode" name="ifscCode" style="flex: 1;">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>PREFERRED PAYMENT METHOD <span class="info-icon">ⓘ</span></label>
+          <select [(ngModel)]="customer.preferredPaymentMethod" name="preferredPaymentMethod">
+            <option value="" disabled selected>Select Payment Method</option>
+            <option>Bank Transfer</option>
+            <option>UPI</option>
+            <option>Credit Card</option>
+            <option>Cash</option>
+          </select>
+        </div>
+        
+
+      </div>
+
+      <!-- Additional Info Tab -->
+      <div *ngIf="activeTab === 'additionalInfo'">
+        <div class="form-group">
+          <label>WEBSITE URL (IF BUSINESS) <span class="info-icon">ⓘ</span></label>
+          <input type="text" placeholder="Enter website URL" [(ngModel)]="customer.websiteUrl" name="websiteUrl">
+        </div>
+
+        <div class="form-group">
+          <label>CONTACT PERSON DETAILS <span class="info-icon">ⓘ</span></label>
+          <input type="text" placeholder="Name" [(ngModel)]="customer.contactPersonName" name="contactPersonName">
+          <div style="display: flex; gap: 10px; margin-top: 10px;">
+
+            <input type="email" placeholder="Email" [(ngModel)]="customer.contactPersonEmail" name="contactPersonEmail"
+              style="flex: 1;" required pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              title="Please enter a valid email address" />
+
+            <input type="text" class="form-control" placeholder="Phone" [(ngModel)]="customer.contactPersonPhone"
+              name="contactPersonPhone" maxlength="10" pattern="^[0-9]{10}$" (keypress)="allowOnlyDigits($event)"
+              required style="flex: 1;">
+
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>NOTES / REMARKS <span class="info-icon">ⓘ</span></label>
+          <textarea placeholder="Enter any special instructions" [(ngModel)]="customer.notes" name="notes"></textarea>
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <!-- Navigation Buttons -->
+    <div class="form-actions"
+      style="display: flex; align-items: center; justify-content: center; margin-top: 15px; gap: 15px; flex-wrap: wrap;">
+
+
+
+      <!-- Next Button -->
+      <button type="button" class="next-btn" *ngIf="activeTab !== 'additionalInfo'" (click)="goNext()"
+        style="background-color: #007bff; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+        Next
+      </button>
+
+      <!-- Back Button -->
+      <button type="button" class="back-btn" (click)="goBack()" *ngIf="activeTab !== 'customerDetails'"
+        style="background-color: #6c757d; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+        Back
+      </button>
+
+      <!-- Save/Cancel Buttons -->
+      <div *ngIf="activeTab === 'additionalInfo'" style="display: flex; gap: 10px;">
+        <button type="submit" class="save-btn"
+          style="background-color: #28a745; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer; "
+          (click)="submitForm()">
+          Submit
+        </button>
+        <button type="button" class="cancel-btn"
+          style="background-color: #dc3545; color: white; padding: 8px 16px; border: none; border-radius: 5px; cursor: pointer;">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+
+  </form>
 </div>
 
 <!-- Spacer div to simulate bottom margin -->

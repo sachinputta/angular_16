@@ -1,63 +1,559 @@
 <app-navbar></app-navbar>
 
+<!-- Add this to your index.html to include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+
 
 <div class="content">
-    <!-- Header Section -->
-    <div class="header">
-        <h1 class="header-title">
-            All Customers
-            <span class="dropdown-arrow">&#9662;</span>
-        </h1>
+  <!-- Header Section -->
+  <div class="header">
+    <h1 class="header-title">
+      All Customers
+      <span class="dropdown-arrow">&#9662;</span>
+    </h1>
 
-        <div class="search-add">
-            <div class="search-wrapper">
-                <i class="fa fa-search search-icon"></i>
-                <input type="text" placeholder="Search by Customer Name..." [(ngModel)]="searchTerm"
-                    (input)="filterCustomers()" class="search-bar" />
+    <div class="search-add">
+      <div class="search-wrapper">
+        <i class="fa fa-search search-icon"></i>
+        <input type="text" placeholder="Search by Customer Name..." [(ngModel)]="searchTerm" (input)="filterCustomers()"
+          class="search-bar" />
+      </div>
+      <button class="add-btn" routerLink="/customers">+ New Customer</button>
+    </div>
+  </div>
+
+  <!-- Table Section -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th (click)="sort('customerName')">Customer Name</th>
+          <th>Company Name</th>
+          <th (click)="sort('customerType')">Customer Type</th>
+          <th>Email</th>
+          <th>Mobile Number</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let customer of paginatedCustomers">
+          <td>{{ customer.customerName }}</td>
+          <td>{{ customer.companyName || 'N/A' }}</td>
+          <td>{{ customer.customerType }}</td>
+          <td><a href="mailto:{{ customer.customerEmail }}">{{ customer.customerEmail }}</a></td>
+          <td>{{ customer.mobileNumber }}</td>
+          <td class="actions">
+            <i class="fa fa-eye view-icon" (click)="viewMore(customer)" title="View More"></i>
+            <i class="fa fa-edit update-icon" (click)="updateCustomer(customer)" title="Edit"></i>
+            <i class="fa fa-trash delete-icon" (click)="deleteCustomer(customer)" title="Delete"></i>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+  <div class="pagination">
+    <button (click)="previousPage()" [disabled]="currentPage === 1" class="page-btn">
+      <span class="dropdown-arrow-1">&#9666;</span> <!-- Unicode left-pointing triangle -->
+    </button>
+    <span style="font-weight: bolder;">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="page-btn">
+      <span class="dropdown-arrow-1">&#9656;</span> <!-- Unicode right-pointing triangle -->
+    </button>
+  </div>
+
+</div>
+
+
+
+<!-- Modal Section for Viewing Customer Details -->
+<div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+  <div class="modal-dialog custom-modal modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="position: relative; justify-content: center; text-align: center; width: 100%;">
+        <h5 class="modal-title" id="customerModalLabel">Customer Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          style="filter: invert(1); position: absolute; right: 20px; top: 25px;"></button>
+
+      </div>
+      <div class="modal-body">
+        <div *ngIf="customerDetails && customerDetails.length > 0; else noDetails">
+          <ul class="nav nav-tabs" id="customerDetailsTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <a class="nav-link active" id="customer-info-tab" data-bs-toggle="tab" href="#customer-info" role="tab"
+                aria-controls="customer-info" aria-selected="true">Customer Info</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="billing-address-tab" data-bs-toggle="tab" href="#billing-address" role="tab"
+                aria-controls="billing-address" aria-selected="false">Billing Address</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="shipping-address-tab" data-bs-toggle="tab" href="#shipping-address" role="tab"
+                aria-controls="shipping-address" aria-selected="false">Shipping Address</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="tax-compliance-tab" data-bs-toggle="tab" href="#tax-compliance" role="tab"
+                aria-controls="tax-compliance" aria-selected="false">Tax & Compliance</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="payment-accounting-tab" data-bs-toggle="tab" href="#payment-accounting" role="tab"
+                aria-controls="payment-accounting" aria-selected="false">Payment & Accounting</a>
+            </li>
+            <li class="nav-item" role="presentation">
+              <a class="nav-link" id="additional-info-tab" data-bs-toggle="tab" href="#additional-info" role="tab"
+                aria-controls="additional-info" aria-selected="false">Additional Info</a>
+            </li>
+          </ul>
+          <div class="tab-content mt-3" id="customerDetailsTabContent">
+
+
+            <div class="tab-pane fade show active" id="customer-info" role="tabpanel"
+              aria-labelledby="customer-info-tab">
+              <div class="customer-info-container">
+                <div class="info-item">
+                  <strong class="info-label">Customer Name :</strong>
+                  <span class="info-value">{{ customerDetails[0].firstName }} {{
+                    customerDetails[0].lastName }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Company Name :</strong>
+                  <span class="info-value">{{ customerDetails[0].companyName || 'N/A' }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Customer Type :</strong>
+                  <span class="info-value">{{ customerDetails[0].customerType }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Customer Email :</strong>
+                  <span class="info-value">
+                    <a href="mailto:{{ customerDetails[0].customerEmail }}">{{
+                      customerDetails[0].customerEmail }}</a>
+                  </span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Phone Number :</strong>
+                  <span class="info-value">{{ customerDetails[0].phoneNumber }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Mobile Number :</strong>
+                  <span class="info-value">{{ customerDetails[0].mobileNumber }}</span>
+                </div>
+              </div>
             </div>
-            <button class="add-btn" routerLink="/customers">+ New Customer</button>
+
+            <div class="tab-pane fade" id="billing-address" role="tabpanel" aria-labelledby="billing-address-tab">
+              <div class="customer-info-container">
+                <div class="info-item">
+                  <strong class="info-label">Street :</strong>
+                  <span class="info-value">{{ customerDetails[0].billingStreet }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">City :</strong>
+                  <span class="info-value">{{ customerDetails[0].billingCity }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">State :</strong>
+                  <span class="info-value">{{ customerDetails[0].billingState }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Country :</strong>
+                  <span class="info-value">{{ customerDetails[0].billingCountry }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Zip Code :</strong>
+                  <span class="info-value">{{ customerDetails[0].billingZip }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Shipping Address Tab -->
+            <div class="tab-pane fade" id="shipping-address" role="tabpanel" aria-labelledby="shipping-address-tab">
+              <div class="customer-info-container">
+                <div class="info-item">
+                  <strong class="info-label">Street :</strong>
+                  <span class="info-value">{{ customerDetails[0].shippingStreet }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">City :</strong>
+                  <span class="info-value">{{ customerDetails[0].shippingCity }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">State :</strong>
+                  <span class="info-value">{{ customerDetails[0].shippingState }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Country :</strong>
+                  <span class="info-value">{{ customerDetails[0].shippingCountry }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Zip Code :</strong>
+                  <span class="info-value">{{ customerDetails[0].shippingZip }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tax & Compliance Tab -->
+            <div class="tab-pane fade" id="tax-compliance" role="tabpanel" aria-labelledby="tax-compliance-tab">
+              <div class="customer-info-container">
+                <div class="info-item">
+                  <strong class="info-label">Tax ID :</strong>
+                  <span class="info-value">{{ customerDetails[0].taxId }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">PAN :</strong>
+                  <span class="info-value">{{ customerDetails[0].pan }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Supply State :</strong>
+                  <span class="info-value">{{ customerDetails[0].supplyState }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Currency :</strong>
+                  <span class="info-value">{{ customerDetails[0].currency }}</span>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Payment & Accounting Tab -->
+            <div class="tab-pane fade" id="payment-accounting" role="tabpanel" aria-labelledby="payment-accounting-tab">
+              <div class="customer-info-container">
+                <div class="info-item">
+                  <strong class="info-label">Payment Terms :</strong>
+                  <span class="info-value">{{ customerDetails[0].paymentTerms }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Credit Limit :</strong>
+                  <span class="info-value">{{ customerDetails[0].creditLimit }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Bank Name :</strong>
+                  <span class="info-value">{{ customerDetails[0].bankName }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Account Number :</strong>
+                  <span class="info-value">{{ customerDetails[0].accountNumber }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">IFSC Code :</strong>
+                  <span class="info-value">{{ customerDetails[0].ifscCode }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Additional Info Tab -->
+            <div class="tab-pane fade" id="additional-info" role="tabpanel" aria-labelledby="additional-info-tab">
+              <div class="customer-info-container">
+                <div class="info-item">
+                  <strong class="info-label">Website URL :</strong>
+                  <span class="info-value"><a href="{{ customerDetails[0].websiteUrl }}" target="_blank">{{
+                      customerDetails[0].websiteUrl }}</a></span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Contact Person Name :</strong>
+                  <span class="info-value">{{ customerDetails[0].contactPersonName }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Contact Person Email :</strong>
+                  <span class="info-value"><a href="mailto:{{ customerDetails[0].contactPersonEmail }}">{{
+                      customerDetails[0].contactPersonEmail }}</a></span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Contact Person Phone :</strong>
+                  <span class="info-value">{{ customerDetails[0].contactPersonPhone }}</span>
+                </div>
+                <div class="info-item">
+                  <strong class="info-label">Notes :</strong>
+                  <span class="info-value">{{ customerDetails[0].notes }}</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-    </div>
-
-    <!-- Table Section -->
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th (click)="sort('customerName')">Customer Name</th>
-                    <th>Company Name</th>
-                    <th (click)="sort('customerType')">Customer Type</th>
-                    <th>Email</th>
-                    <th>Mobile Number</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let customer of paginatedCustomers">
-                    <td>{{ customer.customerName }}</td>
-                    <td>{{ customer.companyName || 'N/A' }}</td>
-                    <td>{{ customer.customerType }}</td>
-                    <td><a href="mailto:{{ customer.customerEmail }}">{{ customer.customerEmail }}</a></td>
-                    <td>{{ customer.mobileNumber }}</td>
-                    <td class="actions">
-                        <i class="fa fa-eye view-icon" (click)="viewMore(customer)" title="View More"></i>
-                        <i class="fa fa-edit update-icon" (click)="updateCustomer(customer)" title="Edit"></i>
-                        <i class="fa fa-trash delete-icon" (click)="deleteCustomer(customer)" title="Delete"></i>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-
-    </div>
-
-    <div class="pagination">
-        <button (click)="previousPage()" [disabled]="currentPage === 1" class="page-btn">
-          <span class="dropdown-arrow-1">&#9666;</span> <!-- Unicode left-pointing triangle -->
-        </button>
-        <span style="font-weight: bolder;">Page {{ currentPage }} of {{ totalPages }}</span>
-        <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="page-btn">
-          <span class="dropdown-arrow-1">&#9656;</span> <!-- Unicode right-pointing triangle -->
-        </button>
+        <ng-template #noDetails>
+          <p>No customer registrations found.</p>
+        </ng-template>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: center; width: 100%;">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
 
+    </div>
+  </div>
+</div>
+
+
+<!-- edit modal  -->
+
+<div class="modal fade" id="updateCustomerModal" tabindex="-1" aria-labelledby="updateCustomerModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog  custom-modal">
+    <div class="modal-content">
+
+
+      <div class="modal-header">
+        <h5 class="modal-title text-center w-100" id="updateCustomerModalLabel">Edit Customer Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          style="filter: invert(1); position: absolute; right: 20px; top: 25px;"></button>
+      </div>
+
+
+      <div class="modal-body">
+
+        <!-- Tabs -->
+        <ul class="nav nav-tabs" id="customerTabs" role="tablist">
+          <li class="nav-item" role="presentation">
+            <a class="nav-link active" id="edit-customer-info-tab" data-bs-toggle="tab" href="#edit-customer-info"
+              role="tab" aria-controls="edit-customer-info" aria-selected="true">Customer Info</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="edit-billing-address-tab" data-bs-toggle="tab" href="#edit-billing-address"
+              role="tab" aria-controls="edit-billing-address" aria-selected="false">Billing Address</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="edit-shipping-address-tab" data-bs-toggle="tab" href="#edit-shipping-address"
+              role="tab" aria-controls="edit-shipping-address" aria-selected="false">Shipping Address</a>
+          </li>
+          <!-- Tax & Compliance Tab -->
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="edit-tax-compliance-tab" data-bs-toggle="tab" href="#edit-tax-compliance" role="tab"
+              aria-controls="edit-tax-compliance" aria-selected="false">Tax & Compliance</a>
+          </li>
+
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="edit-payment-accounting-tab" data-bs-toggle="tab" href="#edit-payment-accounting"
+              role="tab" aria-controls="edit-payment-accounting" aria-selected="false">Payment & Accounting</a>
+          </li>
+          <li class="nav-item" role="presentation">
+            <a class="nav-link" id="edit-additional-info-tab" data-bs-toggle="tab" href="#edit-additional-info"
+              role="tab" aria-controls="edit-additional-info" aria-selected="false">Additional Info</a>
+          </li>
+        </ul>
+
+        <!-- Tab Content -->
+        <div class="tab-content pt-3" id="customerTabsContent">
+
+          <!-- Customer Info Tab -->
+          <div class="tab-pane fade show active" id="edit-customer-info" role="tabpanel"
+            aria-labelledby="edit-customer-info-tab">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">First Name</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.firstName" name="firstName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Last Name</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.lastName" name="lastName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Company Name</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.companyName" name="companyName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Customer Type</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.customerType" name="customerType">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Customer Email</label>
+                <input type="email" class="form-control" [(ngModel)]="selectedCustomer.customerEmail"
+                  name="customerEmail">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Phone Number</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.phoneNumber" name="phoneNumber"
+                  maxlength="10" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Mobile Number</label>
+
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.mobileNumber" name="mobileNumber"
+                  maxlength="10" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Billing Address Tab -->
+          <div class="tab-pane fade" id="edit-billing-address" role="tabpanel"
+            aria-labelledby="edit-billing-address-tab">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Street</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.billingStreet"
+                  name="billingStreet">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.billingCity" name="billingCity">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">State</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.billingState" name="billingState">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Country</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.billingCountry"
+                  name="billingCountry">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Zip Code</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.billingZip" name="billingZip"
+                  maxlength="6" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6)">
+
+              </div>
+            </div>
+          </div>
+
+          <!-- Shipping Address Tab -->
+          <div class="tab-pane fade" id="edit-shipping-address" role="tabpanel"
+            aria-labelledby="edit-shipping-address-tab">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Street</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.shippingStreet"
+                  name="shippingStreet">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.shippingCity" name="shippingCity">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">State</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.shippingState"
+                  name="shippingState">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Country</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.shippingCountry"
+                  name="shippingCountry">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Zip Code</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.shippingZip" name="shippingZip"
+                  maxlength="6" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 6)">
+
+              </div>
+            </div>
+          </div>
+
+
+          <!-- Tax & Compliance Tab -->
+          <div class="tab-pane fade" id="edit-tax-compliance" role="tabpanel" aria-labelledby="edit-tax-compliance-tab">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Tax ID</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.taxId" name="taxId">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">PAN</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.pan" name="pan">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Supply State</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.supplyState" name="supplyState">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Currency (Default Billing Currency) <span class="info-icon">ⓘ</span></label>
+                <select class="form-select" [(ngModel)]="selectedCustomer.currency" name="currency">
+                  <option value="" disabled selected>Select Currency</option>
+                  <option value="INR">INR - Indian Rupee</option>
+                  <option value="USD">USD - US Dollar</option>
+                  <option value="EUR">EUR - Euro</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+
+
+          <!-- Payment & Accounting Tab -->
+          <div class="tab-pane fade" id="edit-payment-accounting" role="tabpanel"
+            aria-labelledby="edit-payment-accounting-tab">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Payment Terms</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.paymentTerms" name="paymentTerms">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Credit Limit</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.creditLimit" name="creditLimit"
+                  maxlength="10" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)">
+
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Bank Name</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.bankName" name="bankName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Account Number</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.accountNumber"
+                  name="accountNumber" maxlength="16" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 16)">
+
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">IFSC Code</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.ifscCode" name="ifscCode">
+              </div>
+            </div>
+          </div>
+
+          <!-- Additional Info Tab -->
+          <div class="tab-pane fade" id="edit-additional-info" role="tabpanel"
+            aria-labelledby="edit-additional-info-tab">
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label">Website URL</label>
+                <input type="url" class="form-control" [(ngModel)]="selectedCustomer.websiteUrl" name="websiteUrl">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Contact Person Name</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.contactPersonName"
+                  name="contactPersonName">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Contact Person Email</label>
+                <input type="email" class="form-control" [(ngModel)]="selectedCustomer.contactPersonEmail"
+                  name="contactPersonEmail">
+              </div>
+              <div class="col-md-6">
+                <label class="form-label">Contact Person Phone</label>
+                <input type="text" class="form-control" [(ngModel)]="selectedCustomer.contactPersonPhone"
+                  name="contactPersonPhone" maxlength="15" pattern="[0-9]*" inputmode="numeric"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 15)">
+
+              </div>
+              <div class="col-12">
+                <label class="form-label">Notes</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="selectedCustomer.notes" name="notes"></textarea>
+              </div>
+            </div>
+          </div>
+
+        </div> <!-- End tab-content -->
+
+      </div> <!-- End modal-body -->
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-primary" (click)="saveUpdatedCustomer()">Save Changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+
+
+
+    </div>
+  </div>
 </div>
