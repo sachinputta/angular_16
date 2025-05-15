@@ -1,70 +1,167 @@
+<!-- Add this to your index.html to include Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap JS and Popper.js -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+
+
 <app-admin-navbar></app-admin-navbar>
 
-
 <div class="items-container">
-    <div class="header">
-      <div class="title-container">
-        <h2>All Customers</h2>
-        <button class="dropdown-btn" (click)="toggleDropdown()">
-          <span class="arrow-down">▼</span>
-        </button>
-      </div>
-      <div class="actions">
-        <div class="search-container">
-          <span class="search-icon">🔍</span>
-          <input
-            type="text"
-            placeholder="Search By Name"
-            [(ngModel)]="searchQuery"
-            (input)="onSearch()"
-          />
-        </div>
-      </div>
+  <div class="header">
+    <div class="title-container">
+      <h2>All Customers</h2>
+      <button class="dropdown-btn" (click)="toggleDropdown()">
+        <span class="arrow-down">▼</span>
+      </button>
     </div>
-  
-    <table class="items-table">
-      <thead>
-        <tr>
-          <th (click)="sortByName()" class="sortable">
-            Customer Name
-            <span class="sort-icon">
-              <span *ngIf="sortDirection === 'asc'">▲</span>
-              <span *ngIf="sortDirection === 'desc'">▼</span>
-              <span *ngIf="sortDirection === 'none'">↕</span>
-            </span>
-          </th>
-          <th>Email</th>
-          <th>Phone</th>
-          <th>State</th>
-          <th>Country</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let customer of getPaginatedCustomers()">
-          <td>{{ customer.companyName }}</td>
-          <td>{{ customer.customerEmail }}</td>
-          <td>{{ customer.phoneNumber }}</td>
-          <td>{{ customer.state }}</td>
-          <td>{{ customer.country }}</td>
-        </tr>
-        <tr *ngIf="filteredCustomers.length === 0">
-          <td colspan="5" class="no-data">
-            No Customers are Registered.
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  
-    <div class="pagination" *ngIf="filteredCustomers.length > 0">
-      <button class="pagination-btn" (click)="previousPage()" [disabled]="currentPage === 1">
-        <span class="pagination-icon">◄</span>
-      </button>
-      <button *ngFor="let page of getPageNumbers()" (click)="goToPage(page)" [class.active]="page === currentPage">
-        {{ page }}
-      </button>
-      <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">
-        <span class="pagination-icon">►</span>
-      </button>
+    <div class="actions">
+      <div class="search-container">
+        <span class="search-icon">🔍</span>
+        <input type="text" placeholder="Search By Name" [(ngModel)]="searchQuery" (input)="onSearch()" />
+      </div>
     </div>
   </div>
-  
+
+  <div *ngIf="isLoading" class="loading">Loading customers...</div>
+
+  <table class="items-table" *ngIf="!isLoading">
+    <thead>
+      <tr>
+        <th>No</th>
+        <th>Customer Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>State</th>
+        <th>Country</th>
+        <th>No. of Sub-Customers</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of getPaginatedCustomers(); let i = index">
+        <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
+        <td>{{ customer.companyName }}</td>
+        <td>{{ customer.customerEmail }}</td>
+        <td>{{ customer.phoneNumber }}</td>
+        <td>{{ customer.state }}</td>
+        <td>{{ customer.country }}</td>
+        <td>
+          <span class="bg-success text-white px-3 py-1 rounded">
+            {{ subCustomerMap[customer.customerId].length || 0 }}
+          </span>
+        </td>
+
+        <td>
+          <button class="btn btn-primary btn-sm" (click)="viewSubCustomers(customer.customerId)">
+            <i class="bi bi-eye me-2"></i> Sub Customers
+          </button>
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination" *ngIf="filteredCustomers.length > 0 && !isLoading">
+    <button class="pagination-btn" (click)="previousPage()" [disabled]="currentPage === 1">
+      <span class="pagination-icon">◄</span>
+    </button>
+    <button *ngFor="let page of getPageNumbers()" (click)="goToPage(page)" [class.active]="page === currentPage">
+      {{ page }}
+    </button>
+    <button class="pagination-btn" (click)="nextPage()" [disabled]="currentPage === totalPages">
+      <span class="pagination-icon">►</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- Sub Customer Modal -->
+<div class="modal fade" #subCustomerModal tabindex="-1" aria-labelledby="subCustomerModalLabel" aria-hidden="true">
+
+
+  <div class="modal-dialog modal-fullscreen-md-down modal-xl modal-dialog-centered">
+    <div class="modal-content shadow-xl rounded-3">
+      <!-- Header -->
+      <div class="modal-header text-white d-flex flex-column align-items-center justify-content-center"
+        style="background: linear-gradient(to right, #7e22ce, #4f46e5);border-top-left-radius: 0.5rem; border-top-right-radius: 0.5rem;">
+        <h5 class="modal-title fw-bold" id="subCustomerModalLabel">All Sub-Customers</h5>
+        <button type="button" class="btn-close btn-close-white " (click)="closeSubCustomerModal()"  aria-label="Close"></button>
+
+      </div>
+
+
+      <!-- Body -->
+      <div class="modal-body bg-gray-50 px-5 py-4">
+        <div *ngIf="selectedSubCustomers.length > 0">
+          <div class="table-responsive rounded shadow-sm border">
+            <table class="table table-bordered table-hover bg-white align-middle">
+              <thead class="bg-indigo-500 text-white text-uppercase fs-sm text-center">
+                <tr>
+                  <th>Company Details</th>
+                  <th>Contact Info</th>
+                  <th>Address</th>
+                  <th>Financial Details</th>
+                  <th>Additional Info</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let sub of selectedSubCustomers">
+                  <td>
+                    <strong>{{ sub.companyName }}</strong> <br />({{ sub.customerType }})<br />
+                    <small> Reg ID: {{ sub.registrationId }}</small>
+                  </td>
+                  <td>
+                    {{ sub.salutation }} {{ sub.firstName }} {{ sub.lastName }}<br />
+                    <small>Email: {{ sub.customerEmail }}</small><br />
+                    <small>Phone: {{ sub.phoneNumber }}</small><br />
+                    <small>Mobile: {{ sub.mobileNumber }}</small><br />
+
+                  </td>
+                  <td>
+                    <strong>Billing:</strong><br />
+                    {{ sub.billingStreet }}, {{ sub.billingCity }}<br />
+                    {{ sub.billingState }} - {{ sub.billingZip }}, {{ sub.billingCountry }}<br />
+                    <strong>Shipping:</strong><br />
+                    {{ sub.shippingStreet }}, {{ sub.shippingCity }}<br />
+                    {{ sub.shippingState }} - {{ sub.shippingZip }}, {{ sub.shippingCountry }}<br />
+                    <small>Supply State: {{ sub.supplyState }}</small>
+                  </td>
+                  <td>
+                    Bank: {{ sub.bankName }} - {{ sub.accountNumber }}<br />
+                    IFSC: {{ sub.ifscCode }}<br />
+                    Credit Limit: {{ sub.creditLimit }} {{ sub.currency }}<br />
+                    Terms: {{ sub.paymentTerms }}<br />
+                    Method: {{ sub.preferredPaymentMethod }}<br />
+                    PAN: {{ sub.pan }}<br />
+                    Tax ID: {{ sub.taxId }}
+                  </td>
+                  <td>
+                    Website: <a [href]="sub.websiteUrl" target="_blank"
+                      class="text-indigo-600 text-decoration-underline">{{ sub.websiteUrl }}</a><br />
+
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- No Sub-Customer -->
+        <div *ngIf="selectedSubCustomers.length === 0" class="text-center py-5 text-muted fs-5">
+          No sub-customers available for this customer.
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="modal-footer border-0 d-flex justify-content-center bg-white py-3">
+        <button type="button" class="btn btn-primary px-4 py-2 rounded-pill shadow-sm" (click)="closeSubCustomerModal()" >
+          Close
+        </button>
+      
+      </div>
+
+
+    </div>
+  </div>
+</div>

@@ -1,6 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { CustomerService } from 'src/app/customer.service';
+import { Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
+import { CustomerService, EmailRequest } from 'src/app/customer.service';
 import { ProformaInvoice } from 'src/app/Modals/proforma-invoice';
+// import * as html2pdf from 'html2pdf.js';
+import html2pdf from 'html2pdf.js';
+import { HttpClient } from '@angular/common/http';
+
+
 
 @Component({
   selector: 'app-proforma-invoice-detail',
@@ -9,10 +14,17 @@ import { ProformaInvoice } from 'src/app/Modals/proforma-invoice';
 })
 export class ProformaInvoiceDetailComponent implements OnChanges {
   @Input() invoice: ProformaInvoice | null = null;
+  @ViewChild('invoiceContent', { static: false }) invoiceContent!: ElementRef;
 
+ emailData: EmailRequest = {
+    toEmail: '',
+    subject: '',
+    message: '',
+  };
   customerProfile: any = null;
+ 
 
-  constructor(private customerService: CustomerService) {}
+  constructor(private http: HttpClient,private customerService: CustomerService) { }
 
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -21,7 +33,36 @@ export class ProformaInvoiceDetailComponent implements OnChanges {
       this.fetchCustomerProfile(this.invoice.customerId);
     }
   }
-  
+
+printInvoiceAsPDF(): void {
+  const element = this.invoiceContent.nativeElement;
+
+  const options = {
+    margin: 0.5,
+    filename: `${this.invoice?.proformaCode || 'invoice'}.pdf`,
+    image: { type: 'jpeg', quality: 0.98 },
+    html2canvas: { scale: 2 },
+    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+  };
+
+  html2pdf().from(element).set(options).save();
+}
+
+  // new Send-by-Email method
+  sendInvoiceEmail() {
+    if (!this.invoice?.proformaCode) {
+      return alert('No invoice selected.');
+    }
+    this.customerService
+      .sendInvoiceEmail(this.invoice.proformaCode)
+      .subscribe({
+        next: () => alert('Email sent successfully!'),
+        error: () => alert('Failed to send email.'),
+      });
+  }
+
+
+
   get totalCharges(): number {
     if (!this.invoice || !this.invoice.items) return 0;
     return this.invoice.items.reduce((sum, item) => sum + (item.netCharges || 0), 0);
@@ -52,5 +93,5 @@ export class ProformaInvoiceDetailComponent implements OnChanges {
     });
   }
 
-  
+
 }

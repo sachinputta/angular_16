@@ -6,6 +6,12 @@ import { CustomerRegistration } from './Modals/CustomerRegistration';
 import { AuthService } from './Services/auth.service';
 import { Quote } from './Modals/quote';
 
+export interface EmailRequest {
+  toEmail: string;
+  subject: string;
+  message: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +23,19 @@ export class CustomerService {
 
 
   constructor(private http: HttpClient, private auth: AuthService) { }
+
+  sendQuoteEmail(quoteCode: string) {
+    return this.http.post(`${this.baseUrl}/quotes/send/${quoteCode}`, {}, { responseType: 'text' });
+  }
+
+
+
+
+   sendInvoiceEmail(quoteCode: string) {
+    return this.http.post(`${this.baseUrl}/invoice/send/${quoteCode}`, {}, { responseType: 'text' });
+  }
+
+  
 
   registerCustomer(customer: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/addCustomer`, customer);

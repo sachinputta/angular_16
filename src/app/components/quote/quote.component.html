@@ -1,111 +1,111 @@
+<div *ngIf="quote; else noSelection" class="quote-detail-container" style="padding: 20px; background-color: #fff;">
+  <!-- Header -->
 
-  <div *ngIf="quote; else noSelection" class="quote-detail-container" style="padding: 20px; background-color: #fff;">
-    <!-- Header -->
+  <div style="width: 100%;font-size: 20px; font-weight: bold; margin-bottom: 10px;">{{ quote.quoteCode }}</div>
 
-    <div style="width: 100%;font-size: 20px; font-weight: bold; margin-bottom: 10px;">{{ quote.quoteCode }}</div>
-  
-    <!-- Action Buttons -->
-    <!-- <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-      <button class="btn btn-outline-primary">Edit</button>
-      <button class="btn btn-outline-success">Send</button>
-      <button class="btn btn-outline-info">Share</button>
-    </div> -->
-  
-    <!-- Quote View -->
-    <div style="border: 1px solid #ccc; padding: 10px; width: 800px;">
 
-      <div style="text-align: center;">
-        <h1 style="font-weight: bold; margin-top: 10px; display: inline-block; border-bottom: 3px solid black;">
-          QUOTE
-        </h1>
+  <div class="d-flex flex-wrap gap-2 mb-4 justify-content-end">
+    <button class="btn btn-outline-success btn-sm" (click)="sendQuoteEmail()"><i class="bi bi-send-fill me-1"></i>
+      Send</button>
+    <button class="btn btn-outline-dark btn-sm" (click)="printQuoteAsPDF()"><i class="bi bi-printer me-1"></i>
+      PDF/Print</button>
+  </div>
+
+
+  <!-- Quote View -->
+  <div #quoteContent style="border: 1px solid #ccc; padding: 15px; width:650px;">
+
+    <div style="text-align: center;">
+      <h1 style="font-weight: bold; margin-top: 10px; display: inline-block; border-bottom: 3px solid black;">
+        QUOTE
+      </h1>
+    </div>
+
+    <div style="display: flex; justify-content: space-between;">
+
+      <div *ngIf="customerProfile" style="padding-left: 30px;">
+        <h2 style="margin-bottom: 8px; font-size: 20px; color: #333;">
+          {{ customerProfile.companyName }}
+        </h2>
+        <p style="margin: 4px 0;">🏙️ {{ customerProfile.state }}</p>
+        <p style="margin: 4px 0;">🌍 {{ customerProfile.country }}</p>
+        <p style="margin: 4px 0;">📞 {{ customerProfile.phoneNumber }}</p>
+        <p style="margin: 4px 0;">✉️ {{ customerProfile.customerEmail }}</p>
       </div>
-      
-      <div style="display: flex; justify-content: space-between;">
 
-        <div *ngIf="customerProfile" style="padding-left: 30px;">
-          <h2 style="margin-bottom: 8px; font-size: 20px; color: #333;">
-            {{ customerProfile.companyName }}
-          </h2>
-          <p style="margin: 4px 0;">🏙️ {{ customerProfile.state }}</p>
-          <p style="margin: 4px 0;">🌍 {{ customerProfile.country }}</p>
-          <p style="margin: 4px 0;">📞 {{ customerProfile.phoneNumber }}</p>
-          <p style="margin: 4px 0;">✉️ {{ customerProfile.customerEmail }}</p>
-        </div>
-        
-        <div style="text-align: right;">
-          <p><strong>QID #</strong>: {{ quote.quoteCode }}</p>
-          <p><strong>Date</strong>: {{ quote.date }}</p>
-        </div>
+      <div style="text-align: right;">
+        <p><strong>QID #</strong>: {{ quote.quoteCode }}</p>
+        <p><strong>Date</strong>: {{ quote.date }}</p>
       </div>
-  
-     
-  
-      <!-- Billing and Shipping Info -->
-       <table style="width: 100%; margin: 20px 0;">
-        <tr style="background-color: #f0f0f0;">
-          <th style="padding: 10px;">Billing To</th>
-          <th style="padding: 10px;">Shipping To</th>
-        </tr>
+    </div>
+
+
+
+    <!-- Billing and Shipping Info -->
+    <table style="width: 100%; margin: 20px 0;">
+      <tr style="background-color: #f0f0f0;">
+        <th style="padding: 10px;">Billing To</th>
+        <th style="padding: 10px;">Shipping To</th>
+      </tr>
+      <tr>
+
+        <td style="padding: 10px;">
+          <strong>{{ quote.customerName }}</strong><br>
+          {{ quote.customer?.billingStreet }}<br>
+          {{ quote.customer?.billingCity }}, {{ quote.customer?.billingState }}<br>
+          {{ quote.customer?.billingCountry }} - {{ quote.customer?.billingZip }}
+        </td>
+
+        <td style="padding: 10px;">
+          <strong>{{ quote.customerName }}</strong><br>
+          {{ quote.customer?.shippingStreet }}<br>
+          {{ quote.customer?.shippingCity }}, {{ quote.customer?.shippingState }}<br>
+          {{ quote.customer?.shippingCountry }} - {{ quote.customer?.shippingZip }}
+        </td>
+      </tr>
+    </table>
+
+
+    <!-- Items Table -->
+    <table style="width: 100%; border: 1px solid #ccc; border-collapse: collapse;">
+      <thead style="background-color: #f5f5f5;">
         <tr>
-
-          <td style="padding: 10px;">
-            <strong>{{ quote.customerName }}</strong><br>
-            {{ quote.customer?.billingStreet }}<br>
-            {{ quote.customer?.billingCity }}, {{ quote.customer?.billingState }}<br>
-            {{ quote.customer?.billingCountry }} - {{ quote.customer?.billingZip }}
-          </td>
-          
-          <td style="padding: 10px;">
-            <strong>{{ quote.customerName }}</strong><br>
-            {{ quote.customer?.shippingStreet }}<br>
-            {{ quote.customer?.shippingCity }}, {{ quote.customer?.shippingState }}<br>
-            {{ quote.customer?.shippingCountry }} - {{ quote.customer?.shippingZip }}
-          </td>
+          <th style="padding: 10px; border: 1px solid #ccc;">#</th>
+          <th style="padding: 10px; border: 1px solid #ccc;">Item & Description</th>
+          <th style="padding: 10px; border: 1px solid #ccc;">Qty</th>
+          <th style="padding: 10px; border: 1px solid #ccc;">Rate</th>
+          <th style="padding: 10px; border: 1px solid #ccc;">Amount</th>
         </tr>
-      </table> 
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of quote?.items; let i = index">
+          <td style="padding: 10px; border: 1px solid #ccc;">{{ i + 1 }}</td>
+          <td style="padding: 10px; border: 1px solid #ccc;">{{ item.description }}</td>
+          <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">{{ item.quantity }}</td>
+          <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">{{ item.rate | currency:'INR' }}</td>
+          <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">{{ item.amount | currency:'INR' }}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr class="total-row">
+          <td colspan="4" class="text-center" style="font-weight: bolder;">Total</td>
+          <td style="text-align: right; font-weight: bolder;">{{ getTotalAmount() | currency:'INR' }}</td>
+        </tr>
+      </tfoot>
+    </table>
 
-  
-      <!-- Items Table -->
-      <table style="width: 100%; border: 1px solid #ccc; border-collapse: collapse;">
-        <thead style="background-color: #f5f5f5;">
-          <tr>
-            <th style="padding: 10px; border: 1px solid #ccc;">#</th>
-            <th style="padding: 10px; border: 1px solid #ccc;">Item & Description</th>
-            <th style="padding: 10px; border: 1px solid #ccc;">Qty</th>
-            <th style="padding: 10px; border: 1px solid #ccc;">Rate</th>
-            <th style="padding: 10px; border: 1px solid #ccc;">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let item of quote?.items; let i = index">
-            <td style="padding: 10px; border: 1px solid #ccc;">{{ i + 1 }}</td>
-            <td style="padding: 10px; border: 1px solid #ccc;">{{ item.description }}</td>
-            <td style="padding: 10px; border: 1px solid #ccc; text-align: center;">{{ item.quantity }}</td>
-            <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">{{ item.rate | currency:'INR' }}</td>
-            <td style="padding: 10px; border: 1px solid #ccc; text-align: right;">{{ item.amount | currency:'INR' }}</td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr class="total-row">
-            <td colspan="4" class="text-center" style="font-weight: bolder;">Total</td>
-            <td  style="text-align: right; font-weight: bolder;">{{ getTotalAmount() | currency:'INR' }}</td>
-          </tr>
-        </tfoot>
-      </table>
-
-      <!-- Signature -->
+    <!-- Signature -->
     <div class="mt-5 text-end small">
       <img src="assets/images/qr-signature.png" alt="Digital Signature" width="120" class="mb-2" />
       <p><strong>Digitally signed by</strong> {{ customerProfile.companyName }}</p>
       <p class="fw-bold text-uppercase">Authorised Signatory</p>
     </div>
-    </div>
   </div>
-  
-  <!-- Fallback when no quote selected -->
-  <ng-template #noSelection>
-    <div class="text-center text-muted" style="padding: 250px;font-weight: bold;">
-    <p>  Please select a quote to view its details.</p>
-    </div>
-  </ng-template>
-  
+</div>
+
+<!-- Fallback when no quote selected -->
+<ng-template #noSelection>
+  <div class="text-center text-muted" style="padding: 250px;font-weight: bold;">
+    <p> Please select a quote to view its details.</p>
+  </div>
+</ng-template>

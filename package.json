@@ -25,6 +25,7 @@
         "express": "^4.19.2",
         "express.js": "^1.0.0",
         "file-saver": "^2.0.5",
+        "html2pdf.js": "^0.10.3",
         "ngx-countup": "^13.1.0",
         "ngx-owl-carousel-o": "^16.0.0",
         "ngx-scrolltop": "^6.0.0",
